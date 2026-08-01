@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Archivo Histórico Global - Preservación, investigación y divulgación del patrimonio documental de la humanidad.">
+    <title>Archivo Histórico Global | Patrimonio de la Humanidad</title>
+    
+    <!-- Fuentes tipográficas institucionales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-primario: #1a1a1a;
+            --color-secundario: #f4f1ea;
+            --color-acento: #8c6d46;
+            --color-texto: #333333;
+            --color-borde: #d1c7bd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--color-secundario);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--color-primario);
+            color: #ffffff;
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--color-acento);
+        }
+
+        .logo-container h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: #f9f6f0;
+        }
+
+        .logo-container p {
+            font-size: 0.85rem;
+            color: var(--color-acento);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--color-acento);
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            color: #ffffff;
+            text-align: center;
+            padding: 8rem 2rem;
+        }
+
+        .hero h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            font-style: italic;
+        }
+
+        .btn-institucional {
+            background-color: var(--color-acento);
+            color: #ffffff;
+            padding: 0.75rem 2rem;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn-institucional:hover {
+            background-color: #6b5234;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .seccion-historia {
+            margin-bottom: 4rem;
+        }
+
+        .seccion-historia h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--color-primario);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--color-borde);
+            padding-bottom: 0.5rem;
+        }
+
+        .grid-articulos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tarjeta-archivo {
+            background: #ffffff;
+            border: 1px solid var(--color-borde);
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .tarjeta-archivo h4 {
+            font-family: 'Cinzel', serif;
+            color: var(--color-primario);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .tarjeta-archivo .fecha {
+            font-size: 0.85rem;
+            color: var(--color-acento);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        footer {
+            background-color: var(--color-primario);
+            color: var(--color-secundario);
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 4px solid var(--color-acento);
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cabecera Institucional -->
+    <header>
+        <div class="logo-container">
+            <h1>Arxivm</h1>
+            <p>Repositorio Histórico Global</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#colecciones">Colecciones</a></li>
+                <li><a href="#cronologia">Cronología</a></li>
+                <li><a href="#investigacion">Investigación</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección Hero Académica -->
+    <section class="hero">
+        <h2>La Memoria Escrita de la Humanidad</h2>
+        <p>"Preservando los documentos, códices y testimonios que definieron el curso de las civilizaciones a través de los siglos."</p>
+        <a href="#colecciones" class="btn-institucional">Explorar Archivos</a>
+    </section>
+
+    <!-- Contenido Principal -->
+    <main>
+        <section id="colecciones" class="seccion-historia">
+            <h3>Fondos Documentales Destacados</h3>
+            <div class="grid-articulos">
+                
+                <article class="tarjeta-archivo">
+                    <span class="fecha">Era Antigua • Siglo III a.C.</span>
+                    <h4>Manuscritos de Alejandría</h4>
+                    <p>Fragmentos recuperados sobre filosofía natural, matemáticas helenísticas y registros administrativos del Mediterráneo oriental.</p>
+                </article>
+
+                <article class="tarjeta-archivo">
+                    <span class="fecha">Edad Media • 1215 d.C.</span>
+                    <h4>Cartas Fundacionales y Fueros</h4>
+                    <p>Estudio de los primeros estatutos jurídicos escritos que sentaron las bases constitucionales del derecho occidental.</p>
+                </article>
+
+                <article class="tarjeta-archivo">
+                    <span class="fecha">Era Moderna • 1492 d.C.</span>
+                    <h4>Crónicas de Exploración</h4>
+                    <p>Diarios de navegación originales y mapas cartográficos que rediseñaron la concepción geográfica del globo terráqueo.</p>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de Página Institucional -->
+    <footer>
+        <p><strong>Archivo Histórico Global - Institución de Preservación Documental</strong></p>
+        <p>&copy; 2026 Todos los derechos reservados bajo licencia académica internacional.</p>
+    </footer>
+
+</body>
+</html>
