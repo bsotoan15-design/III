@@ -1,409 +1,467 @@
-<!DOCTYPE html>
+html_content = '''<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Café Aurora | Café de Especialidad</title>
-    <!-- Fuente desde Google Fonts -->
+    <title>Nuestra Historia de Amor | Libro Interactivo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* Variables de color y fuentes */
         :root {
-            --bg-primary: #0f1115;
-            --bg-card: #181b22;
-            --accent: #e29578;
-            --accent-hover: #f2a68d;
-            --text-main: #f0f3f6;
-            --text-muted: #a0aab6;
-            --border: rgba(255, 255, 255, 0.08);
-            --font-family: 'Outfit', sans-serif;
+            --bg-color: #0d0b18;
+            --book-bg: #fdfbf7;
+            --book-page-right: #f8f4ec;
+            --text-color: #2b262d;
+            --accent-color: #c94b68;
+            --accent-gold: #d4af37;
+            --shadow-color: rgba(0, 0, 0, 0.4);
         }
 
-        /* Resets básicos */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: var(--font-family);
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        /* Navegación */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(15, 17, 21, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-            padding: 1.2rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: var(--text-main);
-            text-decoration: none;
-        }
-
-        .logo span {
-            color: var(--accent);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        /* Hero Section */
-        .hero {
+            background: radial-gradient(circle at center, #1a162b 0%, #08070e 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 6rem 1.5rem 2rem;
-            background: radial-gradient(circle at center, rgba(226, 149, 120, 0.12) 0%, transparent 70%);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            color: #fff;
         }
 
-        .badge {
-            background: rgba(226, 149, 120, 0.15);
-            color: var(--accent);
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(226, 149, 120, 0.3);
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.2rem;
-            max-width: 800px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin-bottom: 2rem;
-        }
-
-        .cta-btn {
-            background-color: var(--accent);
-            color: #0f1115;
-            padding: 0.9rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .cta-btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-        }
-
-        /* Sección Menú */
-        .section {
-            padding: 5rem 2rem;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title p {
-            color: var(--text-muted);
-        }
-
-        /* Tarjetas del Menú */
-        .grid-menu {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: border-color 0.3s, transform 0.3s;
-        }
-
-        .card:hover {
-            border-color: rgba(226, 149, 120, 0.4);
-            transform: translateY(-4px);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.8rem;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .price {
-            color: var(--accent);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .card-desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Formulario de Contacto / Reservas */
-        .form-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 2.5rem;
-            border-radius: 16px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .form-group input, 
-        .form-group textarea {
+        /* Partículas flotantes de pétalos / luz */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 0.8rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-main);
-            outline: none;
-            transition: border-color 0.2s;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .form-group input:focus, 
-        .form-group textarea:focus {
-            border-color: var(--accent);
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            animation: animatePetal 10s linear infinite;
         }
 
-        .submit-btn {
-            width: 100%;
-            padding: 0.9rem;
-            background: var(--accent);
-            color: #0f1115;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .submit-btn:hover {
-            background: var(--accent-hover);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
+        @keyframes animatePetal {
+            0% {
+                transform: translateY(-10vh) rotate(0deg) scale(0.8);
+                opacity: 0;
             }
-            nav ul {
-                gap: 1rem;
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(105vh) rotate(720deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Contenedor del Libro */
+        .book-wrapper {
+            position: relative;
+            z-index: 10;
+            perspective: 2000px;
+            margin: 20px;
+        }
+
+        .book {
+            width: 760px;
+            height: 500px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            box-shadow: 0 20px 50px var(--shadow-color);
+            border-radius: 8px;
+        }
+
+        /* Hojas del Libro */
+        .page {
+            width: 50%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .page-front, .page-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            padding: 40px 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .page-front {
+            background: var(--book-bg);
+            color: var(--text-color);
+            border-left: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .page-back {
+            background: var(--book-page-right);
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            border-right: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px 0 0 8px;
+        }
+
+        /* Portada */
+        #page1 .page-front {
+            background: linear-gradient(135deg, #4a1223 0%, #2b0814 100%);
+            color: var(--accent-gold);
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid var(--accent-gold);
+            border-radius: 0 8px 8px 0;
+        }
+
+        #page1 .page-front h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        #page1 .page-front p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #f1c40f;
+        }
+
+        .heart-icon {
+            font-size: 3rem;
+            margin: 20px 0;
+            color: var(--accent-color);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--accent-color)); }
+            100% { transform: scale(1.2); filter: drop-shadow(0 0 10px var(--accent-color)); }
+        }
+
+        /* Estilos de Contenido de Páginas */
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            border-bottom: 1px dashed var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .page-content {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #3d353e;
+            font-style: italic;
+        }
+
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        .page-number {
+            font-size: 0.85rem;
+            color: #888;
+            text-align: center;
+        }
+
+        /* Ilustración / Marco de Imagen */
+        .photo-frame {
+            width: 100%;
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin: 15px 0;
+            border: 5px solid #fff;
+        }
+
+        /* Efecto de pasadas de página Z-index */
+        #page1 { z-index: 3; }
+        #page2 { z-index: 2; }
+        #page3 { z-index: 1; }
+
+        .flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Controles y Música */
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            z-index: 20;
+            align-items: center;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(201, 75, 104, 0.4);
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(13, 11, 24, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Responsividad */
+        @media (max-width: 800px) {
+            .book {
+                width: 90vw;
+                height: 60vh;
+            }
+            .page-front, .page-back {
+                padding: 20px 15px;
+            }
+            .page-title {
+                font-size: 1.2rem;
+            }
+            .page-content {
+                font-size: 0.9rem;
+                line-height: 1.5;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Encabezado -->
-    <header>
-        <a href="#" class="logo">Café <span>Aurora</span></a>
-        <nav>
-            <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#menu">Menú</a></li>
-                <li><a href="#nosotros">Nosotros</a></li>
-                <li><a href="#contacto">Reserva</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Contenedor de pétalos flotantes -->
+    <div class="particles-container" id="particles"></div>
 
-    <!-- Hero -->
-    <section id="inicio" class="hero">
-        <span class="badge">Granos de origen seleccionado</span>
-        <h1>El arte del café perfecto en cada taza</h1>
-        <p>Tostado artesanal, métodos de extracción de precisión y una atmósfera diseñada para tus sentidos.</p>
-        <a href="#menu" class="cta-btn">Explorar Menú</a>
-    </section>
+    <!-- Reproductor de Música Flotante -->
+    <div class="music-player">
+        <span id="music-status">🎵 Música romántica</span>
+        <button class="btn" id="music-toggle" style="padding: 6px 14px; font-size: 0.85rem;">▶ Reproducir</button>
+        <audio id="bg-music" loop>
+            <!-- Puedes reemplazar el src por tu propia canción romántica -->
+            <source src="romantic_melody.mp3" type="audio/mp3">
+        </audio>
+    </div>
 
-    <!-- Sección Menú -->
-    <section id="menu" class="section">
-        <div class="section-title">
-            <h2>Nuestra Selección</h2>
-            <p>Bebidas preparadas por baristas certificados con granos 100% arábica.</p>
+    <!-- Libro Romántico -->
+    <div class="book-wrapper">
+        <div class="book" id="book">
+            
+            <!-- HOJA 1 (Portada y Contraportada) -->
+            <div class="page" id="page1">
+                <div class="page-front">
+                    <div class="heart-icon">♥</div>
+                    <h1>Nuestra Historia</h1>
+                    <p>Un viaje a través del corazón...</p>
+                    <small style="margin-top: 30px; opacity: 0.7;">Haz clic para abrir</small>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">Capítulo I: El Comienzo</h2>
+                    <p class="page-content">
+                        A veces el destino cruza dos caminos de la manera más insospechada. Aquel día, el mundo entero parecía detenerse solo para dejar espacio a tu mirada.
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">"El primer destello de magia..."</p>
+                    <span class="page-number">1</span>
+                </div>
+            </div>
+
+            <!-- HOJA 2 -->
+            <div class="page" id="page2">
+                <div class="page-front">
+                    <h2 class="page-title">Capítulo II: Las Horas Juntos</h2>
+                    <p class="page-content">
+                        Cada conversación contigo se convirtió en mi refugio favorito. Descubrí que el tiempo a tu lado no se mide en minutos, sino en risas y latidos compartidos.
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">"Eternos en un instante."</p>
+                    <span class="page-number">2</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">Capítulo III: Promesas</h2>
+                    <p class="page-content">
+                        Prometo caminar a tu lado en los días de sol y ser tu abrigo constante en las noches frías. Porque amar no es mirarse el uno al otro, sino mirar juntos en la misma dirección.
+                    </p>
+                    <p class="handwritten" style="text-align: center; margin-top: 30px;">
+                        ♥ Siempre contigo ♥
+                    </p>
+                    <span class="page-number">3</span>
+                </div>
+            </div>
+
+            <!-- HOJA 3 (Página Final) -->
+            <div class="page" id="page3">
+                <div class="page-front">
+                    <h2 class="page-title">Para Siempre</h2>
+                    <p class="page-content" style="text-align: center; margin-top: 40px;">
+                        Esta historia apenas comienza...<br>
+                        Gracias por ser mi parte favorita de la vida.
+                    </p>
+                    <div style="text-align: center; font-size: 2.5rem; color: var(--accent-color); margin-top: 20px;">
+                        ❦
+                    </div>
+                    <span class="page-number">Fin</span>
+                </div>
+                <div class="page-back" style="background: #2b0814; color: var(--accent-gold); text-align: center; justify-content: center;">
+                    <h2>Continuará...</h2>
+                    <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; margin-top: 15px;">Con todo mi amor</p>
+                </div>
+            </div>
+
         </div>
+    </div>
 
-        <div class="grid-menu">
-            <article class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Espresso Doble</h3>
-                    <span class="price">$3.20</span>
-                </div>
-                <p class="card-desc">Extracción de perfil intenso con notas a chocolate amargo y avellana.</p>
-            </article>
+    <!-- Botones de Navegación -->
+    <div class="controls">
+        <button class="btn" id="prev-btn">◀ Anterior</button>
+        <button class="btn" id="next-btn">Siguiente ▶</button>
+    </div>
 
-            <article class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Flat White</h3>
-                    <span class="price">$4.50</span>
-                </div>
-                <p class="card-desc">Doble shot de espresso combinado con leche texturizada de capa fina.</p>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Cold Brew Nitro</h3>
-                    <span class="price">$5.00</span>
-                </div>
-                <p class="card-desc">Infusión en frío durante 18 horas, servida con nitrógeno para textura cremosa.</p>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <h3 class="card-title">V60 Filtro</h3>
-                    <span class="price">$4.80</span>
-                </div>
-                <p class="card-desc">Método artesanal de goteo que resalta la acidez brillante y notas frutales.</p>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Iced Latte Matcha</h3>
-                    <span class="price">$5.20</span>
-                </div>
-                <p class="card-desc">Matcha ceremonial de Uji, Japón, servido con leche vegetal y hielo.</p>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Tostada de Aguacate</h3>
-                    <span class="price">$6.50</span>
-                </div>
-                <p class="card-desc">Pan de masa madre, crema de aguacate, semillas tostadas y aceite de oliva.</p>
-            </article>
-        </div>
-    </section>
-
-    <!-- Sección Reservas / Contacto -->
-    <section id="contacto" class="section">
-        <div class="section-title">
-            <h2>Reserva tu Mesa</h2>
-            <p>Asegura tu lugar para estudiar, trabajar o relajarte.</p>
-        </div>
-
-        <div class="form-container">
-            <form id="booking-form">
-                <div class="form-group">
-                    <label for="nombre">Nombre Completo</label>
-                    <input type="text" id="nombre" placeholder="Tu nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" placeholder="tu@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="personas">Número de Personas</label>
-                    <input type="number" id="personas" min="1" max="10" value="2" required>
-                </div>
-                <div class="form-group">
-                    <label for="mensaje">Notas adicionales (opcional)</label>
-                    <textarea id="mensaje" rows="3" placeholder="Preferencias de mesa, alergias..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Confirmar Reserva</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Pie de página -->
-    <footer>
-        <p>&copy; 2026 Café Aurora. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- Script Interactivo -->
     <script>
-        // Manejo del envío del formulario
-        document.getElementById('booking-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const nombre = document.getElementById('nombre').value;
-            alert(`¡Gracias, ${nombre}! Tu solicitud de reserva ha sido enviada con éxito.`);
-            
-            // Limpia el formulario
-            this.reset();
+        // Animación de Pétalos Flotantes
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 25; i++) {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDelay = Math.random() * 8 + 's';
+            petal.style.animationDuration = (8 + Math.random() * 6) + 's';
+            petal.style.width = (10 + Math.random() * 12) + 'px';
+            petal.style.height = (15 + Math.random() * 15) + 'px';
+            particlesContainer.appendChild(petal);
+        }
+
+        // Lógica del Libro Interactivo
+        const pages = [
+            document.getElementById('page1'),
+            document.getElementById('page2'),
+            document.getElementById('page3')
+        ];
+        let currentPage = 0;
+
+        function updateBook() {
+            pages.forEach((page, index) => {
+                if (index < currentPage) {
+                    page.classList.add('flipped');
+                    page.style.zIndex = index + 1;
+                } else {
+                    page.classList.remove('flipped');
+                    page.style.zIndex = pages.length - index;
+                }
+            });
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentPage < pages.length) {
+                currentPage++;
+                updateBook();
+            }
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                updateBook();
+            }
+        });
+
+        // Clic en la página para voltear
+        pages.forEach((page, index) => {
+            page.addEventListener('click', () => {
+                if (index === currentPage) {
+                    currentPage++;
+                } else if (index === currentPage - 1) {
+                    currentPage--;
+                }
+                updateBook();
+            });
+        });
+
+        // Control de Música
+        const musicToggle = document.getElementById('music-toggle');
+        const bgMusic = document.getElementById('bg-music');
+        let isPlaying = false;
+
+        musicToggle.addEventListener('click', () => {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    musicToggle.textContent = '⏸ Pausar';
+                    isPlaying = true;
+                }).catch(err => {
+                    console.log("Audio playback blocked:", err);
+                });
+            } else {
+                bgMusic.pause();
+                musicToggle.textContent = '▶ Reproducir';
+                isPlaying = false;
+            }
         });
     </script>
 </body>
 </html>
+'''
+
+with open('libro_romantico_animado.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("HTML file generated successfully.")
