@@ -3,11 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Alina 💖 Feliz Día de la Novia</title>
+    <title>❤️Nuestra Historia de Amor ❤️| Libro Interactivo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #0d0b18;
+            --book-bg: #fdfbf7;
+            --book-page-right: #f8f4ec;
+            --text-color: #2b262d;
+            --accent-color: #c94b68;
+            --accent-gold: #d4af37;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,382 +25,437 @@
         }
 
         body {
-            background-color: #08020a;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at center, #1a162b 0%, #08070e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
             color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* Contenedor Principal */
-        .card-container {
-            position: relative;
-            width: 90%;
-            max-width: 1100px;
-            height: 80vh;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 10;
-        }
-
-        /* Seccion Izquierda: Osito y Texto */
-        .bear-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            animation: floatBear 4s ease-in-out infinite alternate;
-        }
-
-        .bear-avatar {
-            width: 280px;
-            height: auto;
-            filter: drop-shadow(0 0 25px rgba(255, 20, 147, 0.6));
-            transition: transform 0.3s ease;
-        }
-
-        .bear-avatar:hover {
-            transform: scale(1.05);
-        }
-
-        .name-tag {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
-            color: #ff66cc;
-            text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 30px #ff007f;
-            margin-top: 15px;
-        }
-
-        /* Seccion Derecha: Corazon Neón Canvas y Botón */
-        .heart-section {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        canvas {
-            position: absolute;
+        /* Partículas flotantes de pétalos / luz */
+        .particles-container {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: 1;
         }
 
-        .heart-content {
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            animation: animatePetal 10s linear infinite;
+        }
+
+        @keyframes animatePetal {
+            0% {
+                transform: translateY(-10vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(105vh) rotate(720deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Contenedor del Libro */
+        .book-wrapper {
             position: relative;
-            z-index: 20;
+            z-index: 10;
+            perspective: 2000px;
+            margin: 20px;
+        }
+
+        .book {
+            width: 760px;
+            height: 500px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            box-shadow: 0 20px 50px var(--shadow-color);
+            border-radius: 8px;
+        }
+
+        /* Hojas del Libro */
+        .page {
+            width: 50%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .page-front, .page-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            padding: 40px 35px;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .page-front {
+            background: var(--book-bg);
+            color: var(--text-color);
+            border-left: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .page-back {
+            background: var(--book-page-right);
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            border-right: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px 0 0 8px;
+        }
+
+        /* Portada */
+        #page1 .page-front {
+            background: linear-gradient(135deg, #4a1223 0%, #2b0814 100%);
+            color: var(--accent-gold);
+            text-align: center;
+            justify-content: center;
             align-items: center;
+            border: 2px solid var(--accent-gold);
+            border-radius: 0 8px 8px 0;
+        }
+
+        #page1 .page-front h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        #page1 .page-front p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #f1c40f;
+        }
+
+        .heart-icon {
+            font-size: 3rem;
+            margin: 20px 0;
+            color: var(--accent-color);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--accent-color)); }
+            100% { transform: scale(1.2); filter: drop-shadow(0 0 10px var(--accent-color)); }
+        }
+
+        /* Estilos de Contenido de Páginas */
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            border-bottom: 1px dashed var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .page-content {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #3d353e;
+            font-style: italic;
+        }
+
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        .page-number {
+            font-size: 0.85rem;
+            color: #888;
             text-align: center;
         }
 
-        .btn-click {
-            background: linear-gradient(135deg, #ff007f, #ff66cc);
-            color: white;
-            border: none;
-            padding: 14px 38px;
-            font-size: 1.2rem;
-            font-weight: 600;
+        /* Ilustración / Marco de Imagen */
+        .photo-frame {
+            width: 100%;
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin: 15px 0;
+            border: 5px solid #fff;
+        }
+
+        /* Efecto de pasadas de página Z-index */
+        #page1 { z-index: 3; }
+        #page2 { z-index: 2; }
+        #page3 { z-index: 1; }
+
+        .flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Controles y Música */
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            z-index: 20;
+            align-items: center;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 10px 22px;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.8), 0 0 40px rgba(255, 0, 127, 0.4);
+            font-size: 0.95rem;
             transition: all 0.3s ease;
-            outline: none;
-            animation: pulseBtn 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .btn-click:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(255, 0, 127, 1), 0 0 60px rgba(255, 102, 204, 0.8);
+        .btn:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(201, 75, 104, 0.4);
         }
 
-        .greeting-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.8rem;
-            color: #ffffff;
-            text-shadow: 0 0 12px #ff3399, 0 0 25px #ff007f, 0 0 35px #ff007f;
-            margin-top: 25px;
-            white-space: nowrap;
-        }
-
-        /* Animaciones */
-        @keyframes floatBear {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-15px); }
-        }
-
-        @keyframes pulseBtn {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.06); }
-        }
-
-        /* Texto Flotante al Clic */
-        .floating-word {
-            position: absolute;
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.8rem;
-            color: #ff99dd;
-            text-shadow: 0 0 15px #ff007f, 0 0 30px #ffffff;
-            pointer-events: none;
-            z-index: 1000;
-            animation: floatAndFade 2.5s forwards ease-out;
-        }
-
-        @keyframes floatAndFade {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5) translateY(0);
-            }
-            20% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.2) translateY(-20px);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(1) translateY(-140px);
-            }
-        }
-
-        /* Corazones Flotando en Fondo */
-        .bg-heart {
+        .music-player {
             position: fixed;
-            color: rgba(255, 105, 180, 0.3);
-            font-size: var(--size);
-            left: var(--x);
-            top: 105vh;
-            pointer-events: none;
-            z-index: 1;
-            animation: bgFloat var(--duration) linear infinite;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(13, 11, 24, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        @keyframes bgFloat {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .card-container {
-                flex-direction: column;
-                height: auto;
+        /* Responsividad */
+        @media (max-width: 800px) {
+            .book {
+                width: 90vw;
+                height: 60vh;
             }
-            .heart-section {
-                width: 380px;
-                height: 380px;
+            .page-front, .page-back {
+                padding: 20px 15px;
             }
-            .bear-avatar { width: 200px; }
-            .name-tag { font-size: 2.8rem; }
-            .greeting-text { font-size: 2.8rem; }
+            .page-title {
+                font-size: 1.2rem;
+            }
+            .page-content {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Corazones Flotantes de Fondo -->
-    <div id="bg-hearts"></div>
+    <!-- Contenedor de pétalos flotantes -->
+    <div class="particles-container" id="particles"></div>
 
-    <!-- Contenedor Principal -->
-    <div class="card-container">
-        
-        <!-- Izquierda: Osito y Nombre -->
-        <div class="bear-section">
-            <!-- SVG de Osito con Ramo de Rosas -->
-            <svg class="bear-avatar" viewBox="0 0 300 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Orejas -->
-                <circle cx="80" cy="80" r="35" fill="#8B4513"/>
-                <circle cx="80" cy="80" r="22" fill="#D2691E"/>
-                <circle cx="220" cy="80" r="35" fill="#8B4513"/>
-                <circle cx="220" cy="80" r="22" fill="#D2691E"/>
-                
-                <!-- Cabeza -->
-                <circle cx="150" cy="110" r="75" fill="#A0522D"/>
-                
-                <!-- Hocico -->
-                <ellipse cx="150" cy="128" rx="30" ry="22" fill="#F5DEB3"/>
-                <ellipse cx="150" cy="118" rx="12" ry="8" fill="#2D1500"/>
-                
-                <!-- Ojos -->
-                <circle cx="120" cy="100" r="9" fill="#1A0D00"/>
-                <circle cx="123" cy="97" r="3" fill="#FFFFFF"/>
-                <circle cx="180" cy="100" r="9" fill="#1A0D00"/>
-                <circle cx="183" cy="97" r="3" fill="#FFFFFF"/>
-                
-                <!-- Cuerpo -->
-                <ellipse cx="150" cy="210" rx="65" ry="60" fill="#A0522D"/>
-                
-                <!-- Ramo de Rosas Roja -->
-                <g transform="translate(100, 160)">
-                    <!-- Envoltorio -->
-                    <path d="M 10 90 L 50 10 Q 50 0 60 10 L 90 90 Z" fill="#4A0012"/>
-                    <!-- Envoltorio Sombra -->
-                    <path d="M 20 80 L 50 20 L 80 80 Z" fill="#800020"/>
-                    
-                    <!-- Capullos de Rosas -->
-                    <circle cx="35" cy="15" r="14" fill="#E60039"/>
-                    <circle cx="35" cy="15" r="8" fill="#990026"/>
-                    
-                    <circle cx="65" cy="15" r="14" fill="#FF1A4D"/>
-                    <circle cx="65" cy="15" r="8" fill="#B3002D"/>
-                    
-                    <circle cx="50" cy="0" r="16" fill="#FF0033"/>
-                    <circle cx="50" cy="0" r="9" fill="#80001A"/>
-                    
-                    <circle cx="25" cy="35" r="13" fill="#CC0029"/>
-                    <circle cx="75" cy="35" r="13" fill="#FF1A4D"/>
-                    
-                    <!-- Hojas -->
-                    <path d="M 10 30 Q -5 20 5 40 Z" fill="#2d8a4e"/>
-                    <path d="M 90 30 Q 105 20 95 40 Z" fill="#2d8a4e"/>
-                </g>
+    <!-- Reproductor de Música Flotante -->
+    <div class="music-player">
+        <span id="music-status">🎵 Música romántica</span>
+        <button class="btn" id="music-toggle" style="padding: 6px 14px; font-size: 0.85rem;">▶ Reproducir</button>
+        <audio id="bg-music" loop>
+            <!-- Puedes reemplazar el src por tu propia canción romántica -->
+            <source src="romantic_melody.mp3" type="audio/mp3">
+        </audio>
+    </div>
 
-                <!-- Patitas sujetando -->
-                <circle cx="105" cy="200" r="22" fill="#8B4513"/>
-                <circle cx="195" cy="200" r="22" fill="#8B4513"/>
-            </svg>
-
-            <!-- Nombre -->
-            <div class="name-tag">Para Alina</div>
-        </div>
-
-        <!-- Derecha: Corazón Neón Animado -->
-        <div class="heart-section">
-            <canvas id="heartCanvas"></canvas>
+    <!-- Libro Romántico -->
+    <div class="book-wrapper">
+        <div class="book" id="book">
             
-            <div class="heart-content">
-                <button class="btn-click" id="actionBtn">Haz clicks∞ mi Cielo</button>
-                <div class="greeting-text">El Amor de mi Vidaa Te amooooooooo</div>
+            <!-- HOJA 1 (Portada y Contraportada) -->
+            <div class="page" id="page1">
+                <div class="page-front">
+                    <div class="heart-icon">🐬 ❤️ 🐢</div>
+                    <h1>❤️Nuestra Historia❤️</h1>
+                    <p>❤️ Un viaje a través del corazón❤️ ∞</p>
+                    <small style="margin-top: 30px; opacity: 0.7;">Haz clic mi Vida❤️ </small>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">Capítulo I: ❤️El Comienzo</h2>
+                    <p class="page-content">
+                        ❤️En un universo lleno de millones de personas, el milagro más hermoso fue que nuestras historias coincidieran. Desde aquel instante comprendí que el amor no llega por casualidad; llega cuando dos corazones están listos para convertirse en un mismo latido❤️
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">"❤️El primer destello de magia...❤️"</p>
+                    <span class="page-number">1</span>
+                </div>
             </div>
-        </div>
 
+            <!-- HOJA 2 -->
+            <div class="page" id="page2">
+                <div class="page-front">
+                    <h2 class="page-title">❤️Capítulo II:❤️Las Horas Juntos❤️</h2>
+                    <p class="page-content">
+                        ❤️Cada conversación contigo se convirtió en mi refugio favorito. Descubrí que el tiempo a tu lado no se mide en minutos, sino en risas y latidos compartidos❤️
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">❤️"Eternos en un instante❤️"</p>
+                    <span class="page-number">2</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️Capítulo III:Promesas❤️</h2>
+                    <p class="page-content">
+                        ❤️Prometo caminar a tu lado en los días de sol y ser tu abrigo constante en las noches frías. Porque amar no es mirarse el uno al otro, sino mirar juntos en la misma dirección❤️
+                    </p>
+                    <p class="handwritten" style="text-align: center; margin-top: 30px;">
+                        ❤️Siempre contigo❤️
+                    </p>
+                    <span class="page-number">3</span>
+                </div>
+            </div>
+
+            <!-- HOJA 3 (Página Final) -->
+            <div class="page" id="page3">
+                <div class="page-front">
+                    <h2 class="page-title">❤️Para Siempre❤️ ∞</h2>
+                    <p class="page-content" style="text-align: center; margin-top: 40px;">
+                        ❤️Esta historia apenas comienza...<br>
+                        Gracias por ser mi parte favorita de la vida❤️
+                    </p>
+                    <div style="text-align: center; font-size: 2.5rem; color: var(--accent-color); margin-top: 20px;">
+                        🐢💕🔟💕🐬
+                    </div>
+                    <span class="page-number">4</span>
+                </div>
+                <div class="page-back" style="background: #2b0814; color: var(--accent-gold); text-align: center; justify-content: center;">
+                    <h2>Continuará...</h2>
+                    <p style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; margin-top: 15px;">❤️Con todo mi amor para mi reina hermosa Alina❤️</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Botones de Navegación -->
+    <div class="controls">
+        <button class="btn" id="prev-btn">◀ Anterior</button>
+        <button class="btn" id="next-btn">Siguiente ▶</button>
     </div>
 
     <script>
-        // Animación de Partículas en forma de Corazón Neón (Canvas)
-        const canvas = document.getElementById('heartCanvas');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = canvas.parentElement.clientWidth;
-            canvas.height = canvas.parentElement.clientHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        // Ecuación Paramétrica del Corazón
-        function getHeartPoint(t) {
-            const x = 16 * Math.pow(Math.sin(t), 3);
-            const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-            return { x, y };
+        // Animación de Pétalos Flotantes
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 25; i++) {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDelay = Math.random() * 8 + 's';
+            petal.style.animationDuration = (8 + Math.random() * 6) + 's';
+            petal.style.width = (10 + Math.random() * 12) + 'px';
+            petal.style.height = (15 + Math.random() * 15) + 'px';
+            particlesContainer.appendChild(petal);
         }
 
-        const particles = [];
-        const totalParticles = 250;
-
-        for (let i = 0; i < totalParticles; i++) {
-            particles.push({
-                t: (Math.PI * 2 / totalParticles) * i,
-                speed: 0.005 + Math.random() * 0.008,
-                size: 2 + Math.random() * 3,
-                pulse: Math.random() * Math.PI,
-                offset: (Math.random() - 0.5) * 8
-            });
-        }
-
-        function drawHeart() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2 + 10;
-            const scale = canvas.width / 38; // Escala adaptativa
-
-            particles.forEach((p) => {
-                p.t += p.speed;
-                if (p.t > Math.PI * 2) p.t = 0;
-                p.pulse += 0.05;
-
-                const pos = getHeartPoint(p.t);
-                const currentScale = scale + Math.sin(p.pulse) * 0.8;
-
-                const x = centerX + pos.x * currentScale + Math.sin(p.pulse) * p.offset;
-                const y = centerY + pos.y * currentScale + Math.cos(p.pulse) * p.offset;
-
-                // Dibujar Neón
-                ctx.beginPath();
-                ctx.arc(x, y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 20, 147, ${0.6 + Math.sin(p.pulse) * 0.4})`;
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = '#ff007f';
-                ctx.fill();
-            });
-
-            requestAnimationFrame(drawHeart);
-        }
-        drawHeart();
-
-        // Sinónimos y piropos románticos para Alina
-        const compliments = [
-            "Eres el amor de mi vida 💖",
-            "Mi reina hermosa 👑", "Mi vidaaa 🌸",
-            "Mi lugar favorito eres tú ✨", "Luz de mis ojos 👁️💖",
-            "Eres mi persona favorita 🥰", "Mi universo entero 🪐",
-            "Te amo con todo mi corazón 💓", "Mi bendición 🧸💖",
-            "La más bella de todas 🌺", "Mi futura esposa 💍"
+        // Lógica del Libro Interactivo
+        const pages = [
+            document.getElementById('page1'),
+            document.getElementById('page2'),
+            document.getElementById('page3')
         ];
+        let currentPage = 0;
 
-        // Acción al presionar el botón "Click aquí" o en la pantalla
-        function triggerRomance(x, y) {
-            const word = document.createElement('div');
-            word.classList.add('floating-word');
-            
-            const randomText = compliments[Math.floor(Math.random() * compliments.length)];
-            word.textContent = randomText;
-            
-            word.style.left = x + 'px';
-            word.style.top = y + 'px';
-            
-            document.body.appendChild(word);
-
-            setTimeout(() => {
-                word.remove();
-            }, 2500);
+        function updateBook() {
+            pages.forEach((page, index) => {
+                if (index < currentPage) {
+                    page.classList.add('flipped');
+                    page.style.zIndex = index + 1;
+                } else {
+                    page.classList.remove('flipped');
+                    page.style.zIndex = pages.length - index;
+                }
+            });
         }
 
-        const btn = document.getElementById('actionBtn');
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            triggerRomance(e.clientX, e.clientY);
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentPage < pages.length) {
+                currentPage++;
+                updateBook();
+            }
         });
 
-        document.addEventListener('click', (e) => {
-            triggerRomance(e.clientX, e.clientY);
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                updateBook();
+            }
         });
 
-        // Generar corazones flotando al fondo
-        const bgContainer = document.getElementById('bg-hearts');
-        for (let i = 0; i < 30; i++) {
-            const h = document.createElement('div');
-            h.classList.add('bg-heart');
-            h.textContent = ['💖', '💗', '💓', '✨', '🌸'][Math.floor(Math.random() * 5)];
-            h.style.setProperty('--x', Math.random() * 100 + 'vw');
-            h.style.setProperty('--size', (Math.random() * 1.5 + 0.8) + 'rem');
-            h.style.setProperty('--duration', (Math.random() * 6 + 5) + 's');
-            h.style.animationDelay = (Math.random() * 5) + 's';
-            bgContainer.appendChild(h);
-        }
+        // Clic en la página para voltear
+        pages.forEach((page, index) => {
+            page.addEventListener('click', () => {
+                if (index === currentPage) {
+                    currentPage++;
+                } else if (index === currentPage - 1) {
+                    currentPage--;
+                }
+                updateBook();
+            });
+        });
+
+        // Control de Música
+        const musicToggle = document.getElementById('music-toggle');
+        const bgMusic = document.getElementById('bg-music');
+        let isPlaying = false;
+
+        musicToggle.addEventListener('click', () => {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    musicToggle.textContent = '⏸ Pausar';
+                    isPlaying = true;
+                }).catch(err => {
+                    console.log("Audio playback blocked:", err);
+                });
+            } else {
+                bgMusic.pause();
+                musicToggle.textContent = '▶ Reproducir';
+                isPlaying = false;
+            }
+        });
     </script>
 </body>
 </html>
