@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Alina 💖 Feliz Día de la Novia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #08020a;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Contenedor Principal */
+        .card-container {
+            position: relative;
+            width: 90%;
+            max-width: 1100px;
+            height: 80vh;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Seccion Izquierda: Osito y Texto */
+        .bear-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: floatBear 4s ease-in-out infinite alternate;
+        }
+
+        .bear-avatar {
+            width: 280px;
+            height: auto;
+            filter: drop-shadow(0 0 25px rgba(255, 20, 147, 0.6));
+            transition: transform 0.3s ease;
+        }
+
+        .bear-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .name-tag {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: #ff66cc;
+            text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 30px #ff007f;
+            margin-top: 15px;
+        }
+
+        /* Seccion Derecha: Corazon Neón Canvas y Botón */
+        .heart-section {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart-content {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .btn-click {
+            background: linear-gradient(135deg, #ff007f, #ff66cc);
+            color: white;
+            border: none;
+            padding: 14px 38px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.8), 0 0 40px rgba(255, 0, 127, 0.4);
+            transition: all 0.3s ease;
+            outline: none;
+            animation: pulseBtn 2s infinite;
+        }
+
+        .btn-click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 0, 127, 1), 0 0 60px rgba(255, 102, 204, 0.8);
+        }
+
+        .greeting-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.8rem;
+            color: #ffffff;
+            text-shadow: 0 0 12px #ff3399, 0 0 25px #ff007f, 0 0 35px #ff007f;
+            margin-top: 25px;
+            white-space: nowrap;
+        }
+
+        /* Animaciones */
+        @keyframes floatBear {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        /* Texto Flotante al Clic */
+        .floating-word {
+            position: absolute;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: #ff99dd;
+            text-shadow: 0 0 15px #ff007f, 0 0 30px #ffffff;
+            pointer-events: none;
+            z-index: 1000;
+            animation: floatAndFade 2.5s forwards ease-out;
+        }
+
+        @keyframes floatAndFade {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5) translateY(0);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2) translateY(-20px);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1) translateY(-140px);
+            }
+        }
+
+        /* Corazones Flotando en Fondo */
+        .bg-heart {
+            position: fixed;
+            color: rgba(255, 105, 180, 0.3);
+            font-size: var(--size);
+            left: var(--x);
+            top: 105vh;
+            pointer-events: none;
+            z-index: 1;
+            animation: bgFloat var(--duration) linear infinite;
+        }
+
+        @keyframes bgFloat {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .card-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .heart-section {
+                width: 380px;
+                height: 380px;
+            }
+            .bear-avatar { width: 200px; }
+            .name-tag { font-size: 2.8rem; }
+            .greeting-text { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Corazones Flotantes de Fondo -->
+    <div id="bg-hearts"></div>
+
+    <!-- Contenedor Principal -->
+    <div class="card-container">
+        
+        <!-- Izquierda: Osito y Nombre -->
+        <div class="bear-section">
+            <!-- SVG de Osito con Ramo de Rosas -->
+            <svg class="bear-avatar" viewBox="0 0 300 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Orejas -->
+                <circle cx="80" cy="80" r="35" fill="#8B4513"/>
+                <circle cx="80" cy="80" r="22" fill="#D2691E"/>
+                <circle cx="220" cy="80" r="35" fill="#8B4513"/>
+                <circle cx="220" cy="80" r="22" fill="#D2691E"/>
+                
+                <!-- Cabeza -->
+                <circle cx="150" cy="110" r="75" fill="#A0522D"/>
+                
+                <!-- Hocico -->
+                <ellipse cx="150" cy="128" rx="30" ry="22" fill="#F5DEB3"/>
+                <ellipse cx="150" cy="118" rx="12" ry="8" fill="#2D1500"/>
+                
+                <!-- Ojos -->
+                <circle cx="120" cy="100" r="9" fill="#1A0D00"/>
+                <circle cx="123" cy="97" r="3" fill="#FFFFFF"/>
+                <circle cx="180" cy="100" r="9" fill="#1A0D00"/>
+                <circle cx="183" cy="97" r="3" fill="#FFFFFF"/>
+                
+                <!-- Cuerpo -->
+                <ellipse cx="150" cy="210" rx="65" ry="60" fill="#A0522D"/>
+                
+                <!-- Ramo de Rosas Roja -->
+                <g transform="translate(100, 160)">
+                    <!-- Envoltorio -->
+                    <path d="M 10 90 L 50 10 Q 50 0 60 10 L 90 90 Z" fill="#4A0012"/>
+                    <!-- Envoltorio Sombra -->
+                    <path d="M 20 80 L 50 20 L 80 80 Z" fill="#800020"/>
+                    
+                    <!-- Capullos de Rosas -->
+                    <circle cx="35" cy="15" r="14" fill="#E60039"/>
+                    <circle cx="35" cy="15" r="8" fill="#990026"/>
+                    
+                    <circle cx="65" cy="15" r="14" fill="#FF1A4D"/>
+                    <circle cx="65" cy="15" r="8" fill="#B3002D"/>
+                    
+                    <circle cx="50" cy="0" r="16" fill="#FF0033"/>
+                    <circle cx="50" cy="0" r="9" fill="#80001A"/>
+                    
+                    <circle cx="25" cy="35" r="13" fill="#CC0029"/>
+                    <circle cx="75" cy="35" r="13" fill="#FF1A4D"/>
+                    
+                    <!-- Hojas -->
+                    <path d="M 10 30 Q -5 20 5 40 Z" fill="#2d8a4e"/>
+                    <path d="M 90 30 Q 105 20 95 40 Z" fill="#2d8a4e"/>
+                </g>
+
+                <!-- Patitas sujetando -->
+                <circle cx="105" cy="200" r="22" fill="#8B4513"/>
+                <circle cx="195" cy="200" r="22" fill="#8B4513"/>
+            </svg>
+
+            <!-- Nombre -->
+            <div class="name-tag">Para Alina</div>
+        </div>
+
+        <!-- Derecha: Corazón Neón Animado -->
+        <div class="heart-section">
+            <canvas id="heartCanvas"></canvas>
+            
+            <div class="heart-content">
+                <button class="btn-click" id="actionBtn">Haz clicks mi bb❤️</button>
+                <div class="greeting-text">El Amor de mi Vida 🐢 ❤️ 10</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Animación de Partículas en forma de Corazón Neón (Canvas)
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Ecuación Paramétrica del Corazón
+        function getHeartPoint(t) {
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+            return { x, y };
+        }
+
+        const particles = [];
+        const totalParticles = 250;
+
+        for (let i = 0; i < totalParticles; i++) {
+            particles.push({
+                t: (Math.PI * 2 / totalParticles) * i,
+                speed: 0.005 + Math.random() * 0.008,
+                size: 2 + Math.random() * 3,
+                pulse: Math.random() * Math.PI,
+                offset: (Math.random() - 0.5) * 8
+            });
+        }
+
+        function drawHeart() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2 + 10;
+            const scale = canvas.width / 38; // Escala adaptativa
+
+            particles.forEach((p) => {
+                p.t += p.speed;
+                if (p.t > Math.PI * 2) p.t = 0;
+                p.pulse += 0.05;
+
+                const pos = getHeartPoint(p.t);
+                const currentScale = scale + Math.sin(p.pulse) * 0.8;
+
+                const x = centerX + pos.x * currentScale + Math.sin(p.pulse) * p.offset;
+                const y = centerY + pos.y * currentScale + Math.cos(p.pulse) * p.offset;
+
+                // Dibujar Neón
+                ctx.beginPath();
+                ctx.arc(x, y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 20, 147, ${0.6 + Math.sin(p.pulse) * 0.4})`;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#ff007f';
+                ctx.fill();
+            });
+
+            requestAnimationFrame(drawHeart);
+        }
+        drawHeart();
+
+        // Sinónimos y piropos románticos para Alina
+        const compliments = [
+            "Eres el amor de mi vida 💖", "Mi motivo para vivir 💓", "Mi inspiración diaria 🌹✨",
+            "Mi reina hermosa 👑", "Eres mi vidaaa 🌸", "Mi amor infinito ♾️💞", "Mi todo ❤️‍🩹",
+            "Mi lugar favorito eres tú ✨", "Luz de mis ojos 👁️💖", "Mi sueño hecho realidad 🌠",
+            "Eres mi persona favorita 🥰", "Mi universo entero 🪐", "Mi destino perfecto 💘",
+            "Te amo con todo mi corazón 💓", "Mi Hermosa bb 🧸💖", "Mi felicidad infinita 🥹💖",
+            "La más bella de todas 🌺", "Mi bendición Sagrada", "Mi futura Esposa💍"
+        ];
+
+        // Acción al presionar el botón "Click aquí" o en la pantalla
+        function triggerRomance(x, y) {
+            const word = document.createElement('div');
+            word.classList.add('floating-word');
+            
+            const randomText = compliments[Math.floor(Math.random() * compliments.length)];
+            word.textContent = randomText;
+            
+            word.style.left = x + 'px';
+            word.style.top = y + 'px';
+            
+            document.body.appendChild(word);
+
+            setTimeout(() => {
+                word.remove();
+            }, 2500);
+        }
+
+        const btn = document.getElementById('actionBtn');
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            triggerRomance(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('click', (e) => {
+            triggerRomance(e.clientX, e.clientY);
+        });
+
+        // Generar corazones flotando al fondo
+        const bgContainer = document.getElementById('bg-hearts');
+        for (let i = 0; i < 30; i++) {
+            const h = document.createElement('div');
+            h.classList.add('bg-heart');
+            h.textContent = ['💖', '💗', '💓', '✨', '🌸'][Math.floor(Math.random() * 5)];
+            h.style.setProperty('--x', Math.random() * 100 + 'vw');
+            h.style.setProperty('--size', (Math.random() * 1.5 + 0.8) + 'rem');
+            h.style.setProperty('--duration', (Math.random() * 6 + 5) + 's');
+            h.style.animationDelay = (Math.random() * 5) + 's';
+            bgContainer.appendChild(h);
+        }
+    </script>
+</body>
+</html>
