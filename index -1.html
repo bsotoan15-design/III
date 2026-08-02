@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️ Bayron & Alina: Un amor para siempre ❤️ | Libro Interactivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0b18;
+            --book-bg: #fdfbf7;
+            --book-page-right: #f8f4ec;
+            --text-color: #2b262d;
+            --accent-color: #c94b68;
+            --accent-gold: #d4af37;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1a162b 0%, #08070e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        /* Título superior decorativo */
+        .top-header {
+            text-align: center;
+            margin-bottom: 15px;
+            z-index: 20;
+        }
+
+        .top-header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #ff758c;
+            text-shadow: 0 0 12px rgba(255, 117, 140, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .top-header .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: -2px;
+            opacity: 0.9;
+        }
+
+        /* Partículas flotantes exteriores (pétalos y corazones) */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            animation: animateParticle 10s linear infinite;
+        }
+
+        .falling-heart {
+            position: absolute;
+            color: #ff4d6d;
+            opacity: 0.65;
+            font-size: 1.2rem;
+            animation: animateParticle 8s linear infinite;
+            text-shadow: 0 0 8px rgba(255, 77, 109, 0.5);
+        }
+
+        @keyframes animateParticle {
+            0% {
+                transform: translateY(-10vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(105vh) rotate(720deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Contenedor del Libro y Personajes */
+        .book-wrapper {
+            position: relative;
+            z-index: 10;
+            perspective: 2000px;
+            margin: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Personajes a los costados del libro */
+        .side-character {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 4rem;
+            z-index: 15;
+            filter: drop-shadow(0 0 15px rgba(255, 117, 140, 0.5));
+            animation: floatCharacter 3s ease-in-out infinite alternate;
+            user-select: none;
+        }
+
+        .side-character.left {
+            left: -90px;
+        }
+
+        .side-character.right {
+            right: -90px;
+        }
+
+        @keyframes floatCharacter {
+            0% { transform: translateY(-50%) translateY(-8px) rotate(-3deg); }
+            100% { transform: translateY(-50%) translateY(8px) rotate(3deg); }
+        }
+
+        .book {
+            width: 760px;
+            height: 500px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            box-shadow: 0 20px 50px var(--shadow-color);
+            border-radius: 8px;
+        }
+
+        /* Hojas del Libro */
+        .page {
+            width: 50%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .page-front, .page-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            padding: 35px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+
+            /* FONDO DE CORAZONES SUAVES DENTRO DE LAS HOJAS */
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 12.5c-2.5-3.5-7.5-3.5-10 0-2.5 3.5 0 8.5 10 14.5 10-6 12.5-11 10-14.5-2.5-3.5-7.5-3.5-10 0z' fill='%23c94b68' fill-opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        .page-front {
+            background-color: var(--book-bg);
+            color: var(--text-color);
+            border-left: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .page-back {
+            background-color: var(--book-page-right);
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            border-right: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px 0 0 8px;
+        }
+
+        /* Portada */
+        #page1 .page-front {
+            background: linear-gradient(135deg, #4a1223 0%, #2b0814 100%);
+            color: var(--accent-gold);
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid var(--accent-gold);
+            border-radius: 0 8px 8px 0;
+        }
+
+        #page1 .page-front h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        #page1 .page-front p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #f1c40f;
+        }
+
+        .heart-icon {
+            font-size: 3rem;
+            margin: 20px 0;
+            color: var(--accent-color);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--accent-color)); }
+            100% { transform: scale(1.2); filter: drop-shadow(0 0 10px var(--accent-color)); }
+        }
+
+        /* Estilos de Contenido de Páginas */
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            border-bottom: 1px dashed var(--accent-color);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+
+        .page-content {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: #3d353e;
+            font-style: italic;
+        }
+
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.45rem;
+            color: var(--accent-color);
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .page-number {
+            font-size: 0.85rem;
+            color: #888;
+            text-align: center;
+        }
+
+        /* Marco de Imagen */
+        .photo-frame {
+            width: 100%;
+            height: 140px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin: 10px 0;
+            border: 4px solid #fff;
+        }
+
+        .flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Controles y Música */
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 20;
+            align-items: center;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(201, 75, 104, 0.4);
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(13, 11, 24, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Responsividad */
+        @media (max-width: 950px) {
+            .side-character {
+                display: none;
+            }
+            .book {
+                width: 90vw;
+                height: 60vh;
+            }
+            .page-front, .page-back {
+                padding: 20px 15px;
+            }
+            .page-title {
+                font-size: 1.2rem;
+            }
+            .page-content {
+                font-size: 0.85rem;
+                line-height: 1.4;
+            }
+            .top-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Título superior del libro -->
+    <div class="top-header">
+        <h1>Bayron & Alina: Un amor para siempre 💕 10</h1>
+        <div class="subtitle">Nuestra Historia de Amor</div>
+    </div>
+
+    <!-- Partículas flotantes -->
+    <div class="particles-container" id="particles"></div>
+
+    <!-- Reproductor de Música -->
+    <div class="music-player">
+        <span id="music-status">🎵 Música romántica</span>
+        <button class="btn" id="music-toggle" style="padding: 6px 14px; font-size: 0.85rem;">▶ Reproducir</button>
+        <audio id="bg-music" loop>
+            <source src="romantic_melody.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+    <!-- Libro Romántico -->
+    <div class="book-wrapper">
+        <!-- Tortuga a la Izquierda -->
+        <div class="side-character left">🐢</div>
+
+        <div class="book" id="book">
+            
+            <!-- HOJA 1 (Portada y Pág 1) -->
+            <div class="page" id="page1">
+                <div class="page-front">
+                    <div class="heart-icon">🐬 ❤️ 🐢</div>
+                    <h1>❤️ Nuestra Historia ❤️</h1>
+                    <p>Un viaje a través del corazón ∞</p>
+                    <small style="margin-top: 30px; opacity: 0.7;">Haz clic mi Vida ❤️</small>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">Capítulo I: ❤️ El Comienzo</h2>
+                    <p class="page-content">
+                        ❤️ En un universo infinito, el destino alineó los astros aquel 7 de enero para cruzarnos en el momento perfecto. Desde esa primera noche sin dormir conversando, entendí que no existen las coincidencias: Dios ya tenía escrita nuestra historia para convertirnos en un solo corazón❤️
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">"❤️El instante en que mi alma reconoció a la tuya❤️"</p>
+                    <span class="page-number">1</span>
+                </div>
+            </div>
+
+            <!-- HOJA 2 (Pág 2 y 3) -->
+            <div class="page" id="page2">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Capítulo II: Las Horas Juntos ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Hablar contigo es como escuchar la melodía más dulce en medio del silencio. El tiempo contigo vuela, pero a la vez se vuelve eterno, dejando grabado en mi pecho cada instante, cada palabra suave y cada suspiro de amor ❤️
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">❤️ Instantes que se quedan para siempre❤️</p>
+                    <span class="page-number">2</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️ Capítulo III: Tu Sonrisa ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Contemplar la alegría en tu rostro es ver el milagro más bello del universo en vivo. Cada risa tuya disipa cualquier sombra en mi camino, envolviéndome en una paz profunda donde entiendo que la felicidad perfecta solo tiene tu nombre❤️
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">"❤️ El refugio sagrado de mi alma ❤️"</p>
+                    <span class="page-number">3</span>
+                </div>
+            </div>
+
+            <!-- HOJA 3 (Pág 4 y 5) -->
+            <div class="page" id="page3">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Capítulo IV: Complicidad ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Construimos una conexión tan pura que no necesita palabras para hacerse sentir. Nuestras almas aprendieron a entrelazarse en silencio, formando una complicidad divina, única e inigualable que el tiempo jamás podrá borrar❤️
+                    </p>
+                    <p class="handwritten">❤️ El idioma secreto de nuestro amor❤️</p>
+                    <span class="page-number">4</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️ Capítulo V: Aventuras Juntos ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Caminar a tu lado es descubrir la verdadera belleza de la vida. No importa qué tan incierto sea el horizonte o qué tormentas traiga el tiempo; si mi mano está entrelazada con la tuya, cada rincón de este mundo se convierte en un santuario de paz❤️
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">"❤️ El regalo supremo de tu andar❤️"</p>
+                    <span class="page-number">5</span>
+                </div>
+            </div>
+
+            <!-- HOJA 4 (Pág 6 y 7) -->
+            <div class="page" id="page4">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Capítulo VI: Promesas ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Prometo ser la luz tibia que disipe tus noches frías, la paciencia que escuche tus suspiros y el abrigo constante de todos tus días. Amar no es solo mirarte; es elegir defender este sentimiento sublime con la vida misma por toda la eternidad❤️
+                    <p class="handwritten" style="text-align: center; margin-top: 30px;">
+                        ❤️ Decretado en mi alma para siempre❤️
+                    </p>
+                    <span class="page-number">6</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️ Capítulo VII: Detalles Únicos ❤️</h2>
+                    <p class="page-content">
+                        ❤️Me enamoré de la magia con la que cuidas cada pequeño momento, de tu ternura infinita y de los detalles tan tuyos —poner foto de perfil y activar tu visto solo por mí—. Enamorarme de ti fue tan natural como respirar, porque entregas tu corazón con una pureza inigualable❤️
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">"❤️ La forma más pura de entregar tu ser❤️"</p>
+                    <span class="page-number">7</span>
+                </div>
+            </div>
+
+            <!-- HOJA 5 (Pág 8 y 9) -->
+            <div class="page" id="page5">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Capítulo VIII: Refugio Seguro ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Cuando el mundo afuera se vuelve un caos, tu amor es mi templo de tranquilidad. Contigo entendí que el verdadero destino de un alma no es un mapa ni una ciudad, sino encontrar a la persona exacta que te hace sentir a salvo❤️
+                    <p class="handwritten">❤️ Mi puerto seguro en la inmensidad❤️</p>
+                    <span class="page-number">8</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️ Capítulo IX: Nuestro Presente ❤️</h2>
+                    <p class="page-content">
+                        ❤️ El presente adquiere un brillo sagrado solo porque tú caminas en él. Gracias por cada sonrisa compartida, por enseñarme la grandeza del amor verdadero y por regalarme la dicha de saber que mi lugar en el mundo es a tu lado❤️
+                    </p>
+                    <p class="handwritten" style="text-align: center; margin-top: 30px;">
+                        ❤️ El instante más perfecto de mi existencia❤️
+                    </p>
+                    <span class="page-number">9</span>
+                </div>
+            </div>
+
+            <!-- HOJA 6 (Pág 10 y 11) -->
+            <div class="page" id="page6">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Capítulo X: Pequeños Universos ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Como el delfín que en tu orilla encuentra la paz, me fascina perderne en tus detalles más sencillos. Eres la constelación de fe de mi alma, la reina de mis sueños y el pequeño universo del que jamás me quiero alejar❤️
+                    <p class="handwritten">"❤️ Eres y siempre serás mi todo❤️"</p>
+                    <span class="page-number">10</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️ Capítulo XI: Tu Abrazo ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Refugiarme en tus brazos es tocar un pedacito de cielo en la tierra. Es el santuario perfecto donde las tormentas se apagan, los temores se disuelvan y mi alma recuerda que a tu lado lo tiene absolutamente todo❤️
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">❤️ La cuna donde descansa mi corazón❤️</p>
+                    <span class="page-number">11</span>
+                </div>
+            </div>
+
+            <!-- HOJA 7 (Pág 12 y 13) -->
+            <div class="page" id="page7">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Capítulo XII: Miradas Inolvidables ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Hay miradas que se quedan grabadas para siempre en la memoria. Las tuyas estoy seguro que van a tener  el poder de hablarle directamente a mi alma sin decir una palabra, espero que me hagas las miradas de las que siempre decimos que vas hacer❤️
+                    </p>
+                    <p class="handwritten">"❤️ Miradas que pertenecen a la eternidad❤️"</p>
+                    <span class="page-number">12</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️ Capítulo XIII: Caminos Compartidos ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Qué hermoso es mirar hacia atrás y ver la bendición de todo lo que hemos construido desde el primer instante. Y qué emoción me da el corazón al saber que aún nos queda toda una vida por compartir, metas por lograr y sueños por cumplir juntos ❤️
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">❤️ Diseñando juntos nuestro destino eterno❤️</p>
+                    <span class="page-number">13</span>
+                </div>
+            </div>
+
+            <!-- HOJA 8 (Pág 14 y 15) -->
+            <div class="page" id="page8">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Capítulo XIV: Gratitud ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Le agradezco a Dios cada mañana por haber cruzado nuestros caminos en el momento perfecto. Eres el regalo más puro, bendito y extraordinario que el cielo pudo poner en mi historia ❤️
+                    </p>
+                    <p class="handwritten">"❤️ Mi mayor orgullo y mi bendición diaria❤️"</p>
+                    <span class="page-number">14</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️ Capítulo XV: Dulces Recuerdos ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Guardo cada fotografía, cada mensaje y cada memoria de nuestra historia como el tesoro más sagrado de mi vida. Desde aquella media noche del 7 de enero, cada instante a tu lado ha quedado grabado en mi alma para siempre ❤️
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">❤️ Coleccionando milagros a tu lado❤️</p>
+                    <span class="page-number">15</span>
+                </div>
+            </div>
+
+            <!-- HOJA 9 (Pág 16 y 17) -->
+            <div class="page" id="page9">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Capítulo XVI: El Futuro ❤️</h2>
+                    <p class="page-content">
+                        ❤️ A pasitos constantes y firmes, vamos caminando hacia un futuro brillante. De aquí a la luna a pasitos de tortuga, de aquí al infinito y más allá, prometo ser siempre tu compañero fiel en cada mañana que nos espere❤️
+                    </p>
+                    <p class="handwritten">"❤️ Por toda la eternidad contigo❤️"</p>
+                    <span class="page-number">16</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️ Capítulo XVII: Tu Ternura ❤️</h2>
+                    <p class="page-content">
+                        ❤️ Hay un bálsamo sagrado en la finura de tus tratos. Tu ternura es el abrazo constante que abriga mi pecho, recordando a cada instante que no hay lugar más bello en la tierra que tu regazo de paz ❤️
+                    </p>
+                    <div class="photo-frame" style="background-image: url('https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=600&q=80');"></div>
+                    <p class="handwritten">❤️El estado más puro del amor❤️</p>
+                    <span class="page-number">17</span>
+                </div>
+            </div>
+
+            <!-- HOJA 10 (Pág 18 y 19) -->
+            <div class="page" id="page10">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Capítulo XVIII: Infinito ❤️</h2>
+                    <p class="page-content">
+                        ❤️ De aquí a la luna a pasitos de tortuga, de aquí al infinito y más allá. Gracias por ser mi reina, mi prometida y mi vida entera. En esta vida y en la eternidad, mi corazón siempre será más tuyo que mío ❤️
+                    </p>
+                    <p class="handwritten">"❤️ Bayron & Alina: Por siempre y para siempre❤️"</p>
+                    <span class="page-number">18</span>
+                </div>
+                <div class="page-back">
+                    <h2 class="page-title">❤️ Capítulo XIX: Incondicional ❤️</h2>
+                    <p class="page-content">
+                        ❤️Tu amor incondicional es el faro que guía mis pasos y el abrazo firme donde descansan todos mis sueños. A tu lado aprendí que no hay desafío grande cuando dos almas caminan en absoluta lealtad❤️
+                    <p class="handwritten" style="text-align: center; margin-top: 30px;">
+                        ❤️ La luz que le da sentido a mi destino❤️
+                    </p>
+                    <span class="page-number">19</span>
+                </div>
+            </div>
+
+            <!-- HOJA 11 (Pág 20 y Contraportada) -->
+            <div class="page" id="page11">
+                <div class="page-front">
+                    <h2 class="page-title">❤️ Para Siempre ❤️ ∞</h2>
+                    <p class="page-content" style="text-align: center; margin-top: 30px;">
+                        ❤️ Esta historia apenas comienza...<br><br>
+                        Gracias por enseñarme la grandeza del amor verdadero y por ser la melodía eterna que habita en mi pecho. Te elijo hoy, mañana y por toda la eternidad ❤️
+                    </p>
+                    <div style="text-align: center; font-size: 2.2rem; color: var(--accent-color); margin-top: 20px;">
+                        🐢 💕 🔟 💕 🐬
+                    </div>
+                    <span class="page-number">20</span>
+                </div>
+                <div class="page-back" style="background: #2b0814; color: var(--accent-gold); text-align: center; justify-content: center;">
+                    <h2>Continuará...</h2>
+                    <p style="font-family: 'Dancing Script', cursive; font-size: 1.6rem; margin-top: 15px;">❤️ Con todo mi amor para mi reina hermosa Alina ❤️</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Delfín a la Derecha -->
+        <div class="side-character right">🐬</div>
+    </div>
+
+    <!-- Botones de Navegación -->
+    <div class="controls">
+        <button class="btn" id="prev-btn">◀ Anterior</button>
+        <button class="btn" id="next-btn">Siguiente ▶</button>
+    </div>
+
+    <script>
+        // Lluvia mezclada de Pétalos de Rosa y Corazones
+        const particlesContainer = document.getElementById('particles');
+        const heartIcons = ['❤️', '💖', '💕', '💗'];
+
+        for (let i = 0; i < 30; i++) {
+            if (i % 2 === 0) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDelay = Math.random() * 8 + 's';
+                petal.style.animationDuration = (8 + Math.random() * 6) + 's';
+                petal.style.width = (10 + Math.random() * 12) + 'px';
+                petal.style.height = (15 + Math.random() * 15) + 'px';
+                particlesContainer.appendChild(petal);
+            } else {
+                const heart = document.createElement('div');
+                heart.classList.add('falling-heart');
+                heart.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.animationDuration = (7 + Math.random() * 5) + 's';
+                heart.style.fontSize = (0.9 + Math.random() * 0.8) + 'rem';
+                particlesContainer.appendChild(heart);
+            }
+        }
+
+        // Selección dinámica de TODAS las hojas (.page)
+        const pages = Array.from(document.querySelectorAll('.page'));
+        let currentPage = 0;
+
+        function updateBook() {
+            pages.forEach((page, index) => {
+                if (index < currentPage) {
+                    page.classList.add('flipped');
+                    page.style.zIndex = index + 1;
+                } else {
+                    page.classList.remove('flipped');
+                    page.style.zIndex = pages.length - index;
+                }
+            });
+        }
+
+        // Inicializar z-index
+        updateBook();
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentPage < pages.length) {
+                currentPage++;
+                updateBook();
+            }
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                updateBook();
+            }
+        });
+
+        // Clic directo en las hojas para pasar
+        pages.forEach((page, index) => {
+            page.addEventListener('click', () => {
+                if (index === currentPage) {
+                    currentPage++;
+                } else if (index === currentPage - 1) {
+                    currentPage--;
+                }
+                updateBook();
+            });
+        });
+
+        // Reproductor de Música
+        const musicToggle = document.getElementById('music-toggle');
+        const bgMusic = document.getElementById('bg-music');
+        let isPlaying = false;
+
+        musicToggle.addEventListener('click', () => {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    musicToggle.textContent = '⏸ Pausar';
+                    isPlaying = true;
+                }).catch(err => {
+                    console.log("Audio bloqueado por navegador:", err);
+                });
+            } else {
+                bgMusic.pause();
+                musicToggle.textContent = '▶ Reproducir';
+                isPlaying = false;
+            }
+        });
+    </script>
+</body>
+</html>
