@@ -114,12 +114,12 @@
             justify-content: center;
         }
 
-        /* Personajes a los costados del libro (MÁS GRANDES) */
+        /* Personajes a los costados del libro */
         .side-character {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 6rem; /* Aumentado de 4rem a 6rem */
+            font-size: 6rem;
             z-index: 15;
             filter: drop-shadow(0 0 25px rgba(255, 158, 187, 0.75));
             animation: floatCharacter 3.5s ease-in-out infinite alternate;
@@ -279,7 +279,7 @@
             transform: rotateY(-180deg);
         }
 
-        /* Controles y Música */
+        /* Controles */
         .controls {
             margin-top: 20px;
             display: flex;
@@ -308,21 +308,6 @@
             border-color: var(--accent-color);
             transform: translateY(-2px);
             box-shadow: 0 5px 18px rgba(216, 74, 117, 0.45);
-        }
-
-        .music-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-            background: rgba(11, 9, 20, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(12px);
-            padding: 12px 22px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
 
         /* Responsividad */
@@ -361,18 +346,9 @@
     <!-- Partículas flotantes -->
     <div class="particles-container" id="particles"></div>
 
-    <!-- Reproductor de Música -->
-    <div class="music-player">
-        <span id="music-status">🎵 Melodía del Corazón</span>
-        <button class="btn" id="music-toggle" style="padding: 6px 14px; font-size: 0.85rem;">▶ Reproducir</button>
-        <audio id="bg-music" loop>
-            <source src="romantic_melody.mp3" type="audio/mp3">
-        </audio>
-    </div>
-
     <!-- Libro Romántico -->
     <div class="book-wrapper">
-        <!-- Tortuga a la Izquierda (MÁS GRANDE) -->
+        <!-- Tortuga a la Izquierda -->
         <div class="side-character left">🐢</div>
 
         <div class="book" id="book">
@@ -610,7 +586,7 @@
 
         </div>
 
-        <!-- Delfín a la Derecha (MÁS GRANDE) -->
+        <!-- Delfín a la Derecha -->
         <div class="side-character right">🐬</div>
     </div>
 
@@ -690,26 +666,6 @@
                 }
                 updateBook();
             });
-        });
-
-        // Reproductor de Música
-        const musicToggle = document.getElementById('music-toggle');
-        const bgMusic = document.getElementById('bg-music');
-        let isPlaying = false;
-
-        musicToggle.addEventListener('click', () => {
-            if (!isPlaying) {
-                bgMusic.play().then(() => {
-                    musicToggle.textContent = '⏸ Pausar';
-                    isPlaying = true;
-                }).catch(err => {
-                    console.log("Audio bloqueado por el navegador:", err);
-                });
-            } else {
-                bgMusic.pause();
-                musicToggle.textContent = '▶ Reproducir';
-                isPlaying = false;
-            }
         });
     </script>
 </body>
