@@ -1,672 +1,250 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Bayron & Alina: Un Amor Infinito ✨ | Libro Interactivo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0b0914;
-            --book-bg: #fffdfa;
-            --book-page-right: #fbf7f0;
-            --text-color: #2e2630;
-            --accent-color: #d84a75;
-            --accent-gold: #e5c158;
-            --shadow-color: rgba(0, 0, 0, 0.45);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galaxia de Amor para Alina ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #030108;
+      font-family: 'Poppins', sans-serif;
+    }
 
-        body {
-            background: radial-gradient(circle at center, #1b1228 0%, #06040a 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            color: #fff;
-            padding: 20px 0;
-        }
-
-        /* Título superior decorativo */
-        .top-header {
-            text-align: center;
-            margin-bottom: 15px;
-            z-index: 20;
-        }
-
-        .top-header h1 {
-            font-family: 'Alex Brush', cursive;
-            font-size: 3rem;
-            color: #ff9ebb;
-            text-shadow: 0 0 15px rgba(255, 158, 187, 0.5);
-            letter-spacing: 1px;
-        }
-
-        .top-header .subtitle {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
-            color: var(--accent-gold);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-top: -4px;
-            opacity: 0.95;
-        }
-
-        /* Partículas flotantes exteriores (pétalos y corazones) */
-        .particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .petal {
-            position: absolute;
-            background: linear-gradient(135deg, #ff9ebb 0%, #fca5a5 100%);
-            border-radius: 150% 0 150% 0;
-            opacity: 0.7;
-            animation: animateParticle 10s linear infinite;
-        }
-
-        .falling-heart {
-            position: absolute;
-            color: #ff5c8a;
-            opacity: 0.7;
-            font-size: 1.2rem;
-            animation: animateParticle 8s linear infinite;
-            text-shadow: 0 0 10px rgba(255, 92, 138, 0.6);
-        }
-
-        @keyframes animateParticle {
-            0% {
-                transform: translateY(-10vh) rotate(0deg) scale(0.8);
-                opacity: 0;
-            }
-            10% { opacity: 0.85; }
-            90% { opacity: 0.85; }
-            100% {
-                transform: translateY(105vh) rotate(720deg) scale(1.2);
-                opacity: 0;
-            }
-        }
-
-        /* Contenedor del Libro y Personajes */
-        .book-wrapper {
-            position: relative;
-            z-index: 10;
-            perspective: 2000px;
-            margin: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Personajes a los costados del libro */
-        .side-character {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 6rem;
-            z-index: 15;
-            filter: drop-shadow(0 0 25px rgba(255, 158, 187, 0.75));
-            animation: floatCharacter 3.5s ease-in-out infinite alternate;
-            user-select: none;
-        }
-
-        .side-character.left {
-            left: -120px;
-        }
-
-        .side-character.right {
-            right: -120px;
-        }
-
-        @keyframes floatCharacter {
-            0% { transform: translateY(-50%) translateY(-12px) rotate(-4deg); }
-            100% { transform: translateY(-50%) translateY(12px) rotate(4deg); }
-        }
-
-        .book {
-            width: 760px;
-            height: 520px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease;
-            box-shadow: 0 22px 55px var(--shadow-color);
-            border-radius: 10px;
-        }
-
-        /* Hojas del Libro */
-        .page {
-            width: 50%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            right: 0;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-            cursor: pointer;
-            border-radius: 0 10px 10px 0;
-        }
-
-        .page-front, .page-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            backface-visibility: hidden;
-            padding: 30px 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
-
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 12.5c-2.5-3.5-7.5-3.5-10 0-2.5 3.5 0 8.5 10 14.5 10-6 12.5-11 10-14.5-2.5-3.5-7.5-3.5-10 0z' fill='%23d84a75' fill-opacity='0.035'/%3E%3C/svg%3E");
-        }
-
-        .page-front {
-            background-color: var(--book-bg);
-            color: var(--text-color);
-            border-left: 1px solid rgba(0,0,0,0.08);
-        }
-
-        .page-back {
-            background-color: var(--book-page-right);
-            color: var(--text-color);
-            transform: rotateY(180deg);
-            border-right: 1px solid rgba(0,0,0,0.08);
-            border-radius: 10px 0 0 10px;
-        }
-
-        /* Portada */
-        #page1 .page-front {
-            background: linear-gradient(135deg, #3d1022 0%, #1a0510 100%);
-            color: var(--accent-gold);
-            text-align: center;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid var(--accent-gold);
-            border-radius: 0 10px 10px 0;
-        }
-
-        #page1 .page-front h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            letter-spacing: 1.5px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-        }
-
-        #page1 .page-front p {
-            font-family: 'Alex Brush', cursive;
-            font-size: 2.1rem;
-            color: #ffe699;
-        }
-
-        .heart-icon {
-            font-size: 3.5rem;
-            margin: 20px 0;
-            color: var(--accent-color);
-            animation: pulse 1.5s infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--accent-color)); }
-            100% { transform: scale(1.22); filter: drop-shadow(0 0 12px var(--accent-color)); }
-        }
-
-        /* Estilos de Contenido de Páginas */
-        .page-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            color: var(--accent-color);
-            border-bottom: 1px dashed var(--accent-color);
-            padding-bottom: 6px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .page-content {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.98rem;
-            line-height: 1.55;
-            color: #3b323c;
-            font-style: italic;
-        }
-
-        /* Estilo especial para el poema en versos */
-        .poem-content {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #2b1f2d;
-            text-align: center;
-            font-style: italic;
-            margin: auto 0;
-        }
-
-        .handwritten {
-            font-family: 'Alex Brush', cursive;
-            font-size: 1.75rem;
-            color: var(--accent-color);
-            text-align: right;
-            margin-top: 6px;
-        }
-
-        .page-number {
-            font-size: 0.85rem;
-            color: #999;
-            text-align: center;
-        }
-
-        .flipped {
-            transform: rotateY(-180deg);
-        }
-
-        /* Controles */
-        .controls {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-            z-index: 20;
-            align-items: center;
-        }
-
-        .btn {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #fff;
-            padding: 10px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn:hover {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 18px rgba(216, 74, 117, 0.45);
-        }
-
-        /* Responsividad */
-        @media (max-width: 1050px) {
-            .side-character {
-                display: none;
-            }
-            .book {
-                width: 90vw;
-                height: 65vh;
-            }
-            .page-front, .page-back {
-                padding: 20px 15px;
-            }
-            .page-title {
-                font-size: 1.15rem;
-            }
-            .page-content {
-                font-size: 0.9rem;
-                line-height: 1.45;
-            }
-            .top-header h1 {
-                font-size: 2.2rem;
-            }
-        }
-    </style>
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Título superior del libro -->
-    <div class="top-header">
-        <h1>Bayron & Alina: Un Amor Infinito 💕</h1>
-        <div class="subtitle">Nuestra Historia Escrita en las Estrellas</div>
-    </div>
+  <canvas id="galaxyCanvas"></canvas>
 
-    <!-- Partículas flotantes -->
-    <div class="particles-container" id="particles"></div>
+  <script>
+    const canvas = document.getElementById('galaxyCanvas');
+    const ctx = canvas.getContext('2d');
 
-    <!-- Libro Romántico -->
-    <div class="book-wrapper">
-        <!-- Tortuga a la Izquierda -->
-        <div class="side-character left">🐢</div>
+    let width, height, centerX, centerY;
 
-        <div class="book" id="book">
-            
-            <!-- HOJA 1 (Portada y Pág 1) -->
-            <div class="page" id="page1">
-                <div class="page-front">
-                    <div class="heart-icon">🐬 ✨ 🐢</div>
-                    <h1>✨ Cartas al Corazón ✨</h1>
-                    <p>Donde el amor se vuelve eterno ∞</p>
-                    <small style="margin-top: 30px; opacity: 0.75;">Abre las páginas de nuestro amor ❤️</small>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 El Mágico Instante en que Llegaste a Mi Vida</h2>
-                    <p class="page-content">
-                        Aquel 7 de enero no fue una fecha más en el calendario, sino el bendito momento en que el cielo decidió cruzar nuestras almas. Desde esa primera noche interminable donde el tiempo pareció detenerse mientras hablábamos, supe con absoluta certeza que Dios te había diseñado especialmente para mí. Tu llegada no fue una coincidencia, fue la promesa cumplida de que la felicidad perfecta realmente existe.
-                    </p>
-                    <p class="handwritten">"El día en que mi alma reconoció su hogar"</p>
-                    <span class="page-number">1</span>
-                </div>
-            </div>
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      centerX = width / 2;
+      centerY = height / 2;
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
-            <!-- HOJA 2 (Pág 2 y 3) -->
-            <div class="page" id="page2">
-                <div class="page-front">
-                    <h2 class="page-title">💖 La Melodía Incomparable de tu Voz</h2>
-                    <p class="page-content">
-                        Escuchar tu voz es como oír la brisa suave en una tarde cálida. Cada palabra que sale de tus labios llena mi universo de una serenidad profunda y hermosa. Hablar contigo me hace olvidar el caos del mundo exterior; a tu lado, los minutos se transforman en suspiros de magia y no existe un solo lugar donde prefiera estar que no sea envuelto en el calor de tus palabras.
-                    </p>
-                    <p class="handwritten">"Tu voz es la canción que jamás me cansaré de escuchar"</p>
-                    <span class="page-number">2</span>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 La Magia Infinita de tu Sonrisa</h2>
-                    <p class="page-content">
-                        Ver tu rostro iluminarse con una sonrisa es presenciar el milagro más bello de la creación. Tienes ese don divino de borrar cualquier tristeza o cansancio con solo mirarme. Tu alegría es la luz tibia que disipa mis noches más frías, envolviendo mi corazón en un abrazo constante de paz y demostrándome que la belleza verdadera habita en tu alma.
-                    </p>
-                    <p class="handwritten">"Tu sonrisa es el sol que ilumina mi existir"</p>
-                    <span class="page-number">3</span>
-                </div>
-            </div>
+    // Nombre principal
+    const targetName = "Alina ✨";
 
-            <!-- HOJA 3 (Pág 4 y 5) -->
-            <div class="page" id="page3">
-                <div class="page-front">
-                    <h2 class="page-title">💖 El Lenguaje Secreto de Nuestra Complicidad</h2>
-                    <p class="page-content">
-                        Entre nosotros se ha tejido un vínculo tan puro y transparente que las palabras salen sobrando. Nos entendemos con una simple mirada, con un gesto sutil o en la paz de un silencio compartido. Dios unió nuestras vidas de una manera tan perfecta que siento que nuestras almas se conocen desde siempre, latiendo al mismo compás en una complicidad divina.
-                    </p>
-                    <p class="handwritten">"Sintonizados en un mismo corazón"</p>
-                    <span class="page-number">4</span>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 Caminando Juntos hacia Cualquier Horizonte</h2>
-                    <p class="page-content">
-                        Sostener tu mano mientras avanzamos por la vida es la experiencia más sublime. No importa cuán incierto pueda parecer el mañana o qué tempestades traiga el destino; la certeza de que tu mano está entrelazada con la mía me llena de una fuerza inquebrantable. A tu lado, cualquier sendero se vuelve sagrado y hermoso.
-                    </p>
-                    <p class="handwritten">"Mi mano en la tuya por toda la eternidad"</p>
-                    <span class="page-number">5</span>
-                </div>
-            </div>
+    // Frases dedicadas para Alina
+    const phrases = [
+      "Alina, mi reina 👑", "Mi vida Alina ❤️", "Mi mundo eres tú ✨", "Sin ti no soy nada 💖",
+      "Eres mi todo 🌸", "Solo tú, Alina 💎", "Gracias por existir 💕", "Eres mi luz 💖",
+      "Mi cielo 🌌", "Mi corazón 💓", "Siempre tú, Alina 💞", "Eres especial 🌹",
+      "Contigo es todo 🌷", "Eres mi paz 🕊️", "Mi sueño hecho realidad 💫", "Te amo Alina ❤️",
+      "Por siempre juntos ♾️", "Eres perfecta 💖", "Alina, mi razón 💗", "Completamente enamorado 🌹",
+      "Mi ángel 🪽", "Mi hogar 🏠", "Mi felicidad 🌸", "Cada día te amo más 💞",
+      "El sol de mis días ☀️", "Mi universo entero 🪐", "Eternamente tuya/o 💌"
+    ];
 
-            <!-- HOJA 4 (Pág 6 y 7 - POEMA CON RIMA) -->
-            <div class="page" id="page4">
-                <div class="page-front">
-                    <h2 class="page-title">💖 Poema: Bajo la Luz de tu Existir</h2>
-                    <div class="poem-content">
-                        Llegaste a mi vida como un rayo de sol,<br>
-                        llenando mis días de tierno candor.<br>
-                        En tus dulces ojos hallé mi farol,<br>
-                        y en tu limpio pecho encontré el amor.<br><br>
-                        Eres la melodía de mi amanecer,<br>
-                        el dulce refugio de mi corazón.<br>
-                        A tu lado todo es un renacer,<br>
-                        la más bella obra de la creación.
-                    </div>
-                    <p class="handwritten">"Versos nacidos desde lo más profundo de mi ser"</p>
-                    <span class="page-number">6</span>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 Poema: Promesa Inmortal</h2>
-                    <div class="poem-content">
-                        Prometo cuidarte con fe y devoción,<br>
-                        ser abrigo constante en la tempestad.<br>
-                        Darte en cada beso toda la pasión,<br>
-                        y amarte sin límites por la eternidad.<br><br>
-                        Como el dulce mar abrazando la orilla,<br>
-                        así mi alma siempre a ti buscará.<br>
-                        Tu amor es el faro que puro brilla,<br>
-                        la luz que mi vida por siempre guiará.
-                    </div>
-                    <p class="handwritten">"Decretado en los cielos para siempre"</p>
-                    <span class="page-number">7</span>
-                </div>
-            </div>
+    // Configuración de estrellas y nebulosas
+    const numParticles = 2000;
+    const particles = [];
+    const textItems = [];
+    const interactiveParticles = [];
 
-            <!-- HOJA 5 (Pág 8 y 9) -->
-            <div class="page" id="page5">
-                <div class="page-front">
-                    <h2 class="page-title">💖 La Finura de tus Hermosos Detalles</h2>
-                    <p class="page-content">
-                        Me enamoro de ti una y otra vez al contemplar la delicadeza con la que cuidas nuestro amor. Cada pequeño gesto tuyo, esas acciones tan únicas —como cambiar tu foto o activar tu visto solo para mí—, me demuestran la pureza de tu entrega. Enamorarme de ti ha sido lo más natural de mi vida, porque me regalas el amor más puro y noble que jamás imaginé recibir.
-                    </p>
-                    <p class="handwritten">"Tus pequeños detalles hacen inmenso mi mundo"</p>
-                    <span class="page-number">8</span>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 El Puerto Seguro donde Descansa mi Alma</h2>
-                    <p class="page-content">
-                        En un mundo que a menudo gira demasiado rápido y lleno de incertidumbre, tu amor es mi templo de absoluta tranquilidad. Contigo aprendí que el destino de una persona no es un lugar geográfico, sino el regazo sagrado de la persona amada. Refugiarme en tus brazos me da una paz indescriptible, donde todos mis miedos desaparecen al instante.
-                    </p>
-                    <p class="handwritten">"Mi único y verdadero refugio de paz"</p>
-                    <span class="page-number">9</span>
-                </div>
-            </div>
+    // Crear partículas para la galaxia espiral
+    for (let i = 0; i < numParticles; i++) {
+      const radius = Math.pow(Math.random(), 2) * (Math.min(width, height) * 0.48) + 25;
+      const angle = Math.random() * Math.PI * 2 + (radius * 0.012);
+      const speed = (0.0015 + (1 / radius) * 0.12);
+      const size = Math.random() * 2.2 + 0.2;
+      const opacity = Math.random() * 0.85 + 0.15;
+      // Colores variados entre blanco, magenta, azul cosmos y dorado
+      const colors = ['#fff', '#ffb3d9', '#ff66b2', '#cce6ff', '#ffd700'];
+      const color = colors[Math.floor(Math.random() * colors.length)];
 
-            <!-- HOJA 6 (Pág 10 y 11) -->
-            <div class="page" id="page6">
-                <div class="page-front">
-                    <h2 class="page-title">💖 Mi Pequeño Universo de Amor</h2>
-                    <p class="page-content">
-                        Así como el delfín encuentra su calma en las aguas tibias de la orilla, mi corazón encuentra su lugar perfecto en el tuyo. Me fascina perderme en tus miradas, en tus pensamientos y en la belleza de tu alma. Eres la reina indiscutible de mis sueños, mi niña hermosa y el pequeño universo del cual jamás querré alejarme.
-                    </p>
-                    <p class="handwritten">"Eres el centro de mi universo entera"</p>
-                    <span class="page-number">10</span>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 El Abrazo que Sanó mi Corazón</h2>
-                    <p class="page-content">
-                        En la calidez de tu abrazo hay un pedacito de cielo bajado a la tierra. Es el santuario perfecto donde las dudas se extinguen y el tiempo cobra una dimensión eterna. Estar apretado contra tu pecho me recuerda lo maravilloso que es la vida y cómo tu amor incondicional es la medicina divina que alegra cada fibra de mi ser.
-                    </p>
-                    <p class="handwritten">"El mejor lugar para habitar es tu regazo"</p>
-                    <span class="page-number">11</span>
-                </div>
-            </div>
+      particles.push({ radius, angle, speed, size, opacity, color });
+    }
 
-            <!-- HOJA 7 (Pág 12 y 13) -->
-            <div class="page" id="page7">
-                <div class="page-front">
-                    <h2 class="page-title">💖 Miradas Eternas Grabadas en el Alma</h2>
-                    <p class="page-content">
-                        Hay miradas que no se borran jamás con el paso de los años, y las tuyas tienen el poder mágico de hablarle directamente a mi espíritu. Esas miradas cómplices que nos hacemos, cargadas de ternura, picardía y un profundo amor, son mi tesoro más amado. Anhelo cada una de las miradas que siempre nos prometemos y que seguirán iluminándonos siempre.
-                    </p>
-                    <p class="handwritten">"Ojos que me cuentan la historia más bella"</p>
-                    <span class="page-number">12</span>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 Construyendo un Mañana Lleno de Bendición</h2>
-                    <p class="page-content">
-                        Mirar hacia atrás y observar todo lo bello que hemos edificado desde el primer día me llena de profunda gratitud. Pero mirar hacia el futuro me acelera el corazón de pura alegría, al saber que nos queda toda una vida por delante para cumplir sueños, alcanzar metas, reír a carcajadas y amarnos con una lealtad que trascienda los tiempos.
-                    </p>
-                    <p class="handwritten">"Nuestro futuro es tan brillante como tu alma"</p>
-                    <span class="page-number">13</span>
-                </div>
-            </div>
+    // Distribución de frases flotantes
+    phrases.forEach((phrase, idx) => {
+      const radius = 70 + (idx / phrases.length) * (Math.min(width, height) * 0.43);
+      const angle = (idx * (Math.PI * 2 / 7)) + (radius * 0.007);
+      const speed = 0.0012 + (1 / radius) * 0.08;
+      const fontSize = Math.max(12, Math.min(19, 10 + (radius * 0.014)));
 
-            <!-- HOJA 8 (Pág 14 y 15) -->
-            <div class="page" id="page8">
-                <div class="page-front">
-                    <h2 class="page-title">💖 Gratitud Eterna al Cielo por Tu Existencia</h2>
-                    <p class="page-content">
-                        Cada mañana al despertar bendigo a Dios por el milagro de tenerte a mi lado. Eres la respuesta a todas mis oraciones, el regalo más puro y bello que la vida pudo depositar en mi historia. Tener tu amor es contar con la mayor riqueza de la tierra, y prometo honrar y cuidar tu hermoso ser todos los días de mi existencia.
-                    </p>
-                    <p class="handwritten">"Eres mi mayor bendición divina"</p>
-                    <span class="page-number">14</span>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 Tesoros Incalculables en la Memoria</h2>
-                    <p class="page-content">
-                        Guardo cada mensaje tuyo, cada risa compartida y cada segundo a tu lado como reliquias sagradas dentro de mi pecho. Desde aquella medianoche mágica del 7 de enero, nuestra historia comenzó a escribirse con letras de oro, transformando el tiempo ordinario en una colección interminable de momentos milagrosos y eternos.
-                    </p>
-                    <p class="handwritten">"Coleccionando milagros a tu lado"</p>
-                    <span class="page-number">15</span>
-                </div>
-            </div>
+      textItems.push({
+        text: phrase,
+        radius: radius,
+        angle: angle,
+        speed: speed,
+        fontSize: fontSize
+      });
+    });
 
-            <!-- HOJA 9 (Pág 16 y 17) -->
-            <div class="page" id="page9">
-                <div class="page-front">
-                    <h2 class="page-title">💖 A Pasitos de Tortuga Hacia el Infinito</h2>
-                    <p class="page-content">
-                        Caminamos juntos con pasos firmes, seguros y llenos de ilusión. De aquí a la luna a pasitos de tortuga, y de aquí al infinito y más allá, seré siempre tu compañero fiel, tu protector celoso y el amor incondicional que velará por tu felicidad en cada nuevo amanecer.
-                    </p>
-                    <p class="handwritten">"Nuestros pasos nunca se separarán"</p>
-                    <span class="page-number">16</span>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 La Dulzura Infinita que Abriga mi Ser</h2>
-                    <p class="page-content">
-                        Existe una gracia divina en la forma suave y noble con la que me tratas. Tu ternura es el bálsamo perfecto que limpia cualquier dolor y abriga mi pecho con una calidez inagotable. Me has enseñado el rostro verdaderamente humano y hermoso del amor verdadero, mostrándome lo dulce que es vivir cuando se ama de verdad.
-                    </p>
-                    <p class="handwritten">"Tu ternura es el estado más puro del amor"</p>
-                    <span class="page-number">17</span>
-                </div>
-            </div>
+    // Interacción con ratón / táctil
+    function addInteractiveParticle(x, y) {
+      for (let i = 0; i < 3; i++) {
+        interactiveParticles.push({
+          x: x + (Math.random() - 0.5) * 20,
+          y: y + (Math.random() - 0.5) * 20,
+          vx: (Math.random() - 0.5) * 2,
+          vy: (Math.random() - 0.5) * 2 - 1,
+          size: Math.random() * 14 + 10,
+          alpha: 1,
+          isHeart: Math.random() > 0.4
+        });
+      }
+    }
 
-            <!-- HOJA 10 (Pág 18 y 19) -->
-            <div class="page" id="page10">
-                <div class="page-front">
-                    <h2 class="page-title">💖 Por Siempre y Para Siempre Tuyos</h2>
-                    <p class="page-content">
-                        Gracias por ser mi reina hermosa, mi prometida adorada y la luz absoluta que guía mi vida. Te entrego todo lo que soy sin reservas; en esta vida terrenal y por toda la eternidad en el cielo, mi corazón le pertenecerá siempre más a ti que a mí mismo. Eres y serás por siempre el gran amor de mi existencia.
-                    </p>
-                    <p class="handwritten">"Bayron & Alina: Entrelazados en la eternidad"</p>
-                    <span class="page-number">18</span>
-                </div>
-                <div class="page-back">
-                    <h2 class="page-title">💖 Lealtad Inquebrantable de dos Almas Unidas</h2>
-                    <p class="page-content">
-                        Tu amor leal e incondicional es el faro reluciente que ilumina mis días más oscuros. A tu lado descubrí que cuando dos personas deciden amarse con el corazón limpio y la verdad por delante, no existen gigantes ni tormentas capaces de derrumbar su historia. Mi lealtad hacia ti es eterna e inquebrantable.
-                    </p>
-                    <p class="handwritten">"La luz que da sentido a mi destino"</p>
-                    <span class="page-number">19</span>
-                </div>
-            </div>
+    window.addEventListener('mousemove', (e) => addInteractiveParticle(e.clientX, e.clientY));
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        addInteractiveParticle(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    });
 
-            <!-- HOJA 11 (Pág 20 y Contraportada) -->
-            <div class="page" id="page11">
-                <div class="page-front">
-                    <h2 class="page-title">💖 Nuestro Amor Infinito Sin Final ✨</h2>
-                    <p class="page-content" style="text-align: center; margin-top: 25px;">
-                        Esta bella historia jamás tendrá un punto final, porque nuestro amor se renueva con cada amanecer...<br><br>
-                        Gracias por enseñarme la grandeza del verdadero amor y por ser la melodía eterna que habita en mi alma. Te elijo hoy, mañana y por el resto de todas nuestras vidas ❤️
-                    </p>
-                    <div style="text-align: center; font-size: 2.2rem; color: var(--accent-color); margin-top: 15px;">
-                        🐢 💕 🔟 💕 🐬
-                    </div>
-                    <span class="page-number">20</span>
-                </div>
-                <div class="page-back" style="background: #250612; color: var(--accent-gold); text-align: center; justify-content: center;">
-                    <h2>Nuestra Historia Continúa...</h2>
-                    <p style="font-family: 'Alex Brush', cursive; font-size: 2.2rem; margin-top: 15px;">Con todo mi amor para mi reina hermosa Alina ❤️</p>
-                </div>
-            </div>
+    let pulseTimer = 0;
 
-        </div>
+    // Bucle de animación
+    function animate() {
+      pulseTimer += 0.03;
+      const pulseScale = 1 + Math.sin(pulseTimer) * 0.08;
 
-        <!-- Delfín a la Derecha -->
-        <div class="side-character right">🐬</div>
-    </div>
+      // Fondo oscuro con rastro estelar
+      ctx.fillStyle = 'rgba(3, 1, 8, 0.18)';
+      ctx.fillRect(0, 0, width, height);
 
-    <!-- Botones de Navegación -->
-    <div class="controls">
-        <button class="btn" id="prev-btn">◀ Anterior</button>
-        <button class="btn" id="next-btn">Siguiente ▶</button>
-    </div>
+      const maxRadius = Math.min(width, height) * 0.48;
 
-    <script>
-        // Lluvia mezclada de Pétalos de Rosa y Corazones
-        const particlesContainer = document.getElementById('particles');
-        const heartIcons = ['❤️', '💖', '💕', '💗', '✨'];
+      // 1. Resplandor de Nebulosa en el fondo
+      const bgGlow = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, maxRadius);
+      bgGlow.addColorStop(0, 'rgba(255, 50, 150, 0.35)');
+      bgGlow.addColorStop(0.4, 'rgba(140, 20, 120, 0.15)');
+      bgGlow.addColorStop(0.8, 'rgba(30, 10, 50, 0.08)');
+      bgGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = bgGlow;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, maxRadius, 0, Math.PI * 2);
+      ctx.fill();
 
-        for (let i = 0; i < 30; i++) {
-            if (i % 2 === 0) {
-                const petal = document.createElement('div');
-                petal.classList.add('petal');
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.animationDelay = Math.random() * 8 + 's';
-                petal.style.animationDuration = (8 + Math.random() * 6) + 's';
-                petal.style.width = (10 + Math.random() * 12) + 'px';
-                petal.style.height = (15 + Math.random() * 15) + 'px';
-                particlesContainer.appendChild(petal);
-            } else {
-                const heart = document.createElement('div');
-                heart.classList.add('falling-heart');
-                heart.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDelay = Math.random() * 8 + 's';
-                heart.style.animationDuration = (7 + Math.random() * 5) + 's';
-                heart.style.fontSize = (0.9 + Math.random() * 0.8) + 'rem';
-                particlesContainer.appendChild(heart);
-            }
+      // 2. Dibujar Estrellas de la Galaxia
+      particles.forEach(p => {
+        p.angle += p.speed;
+
+        const x = centerX + Math.cos(p.angle) * p.radius;
+        const y = centerY + Math.sin(p.angle) * (p.radius * 0.62);
+
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.opacity;
+        ctx.beginPath();
+        ctx.arc(x, y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1.0;
+
+      // 3. Anillo de Luz Central Palpitante
+      const holeRadius = 42 * pulseScale;
+      const ringGlow = ctx.createRadialGradient(centerX, centerY, holeRadius * 0.4, centerX, centerY, holeRadius + 30);
+      ringGlow.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      ringGlow.addColorStop(0.3, 'rgba(255, 105, 180, 0.9)');
+      ringGlow.addColorStop(0.7, 'rgba(180, 0, 100, 0.4)');
+      ringGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      ctx.fillStyle = ringGlow;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, holeRadius + 30, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Núcleo del Sol/Estrella Central
+      ctx.fillStyle = '#0a0008';
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, holeRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 4. Nombre "ALINA" en el centro de la Galaxia
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.font = `700 ${Math.max(22, holeRadius * 0.75)}px 'Great Vibes', cursive, 'Poppins'`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Sombra Neón Dorada / Rosada para Alina
+      ctx.shadowColor = '#ff66cc';
+      ctx.shadowBlur = 15;
+      ctx.fillStyle = '#ffe6f2';
+      ctx.fillText(targetName, 0, 2);
+      ctx.restore();
+
+      // 5. Dibujar Frases y Emojis Flotantes
+      textItems.forEach(t => {
+        t.angle += t.speed;
+
+        const x = centerX + Math.cos(t.angle) * t.radius;
+        const y = centerY + Math.sin(t.angle) * (t.radius * 0.62);
+
+        ctx.save();
+        ctx.translate(x, y);
+
+        ctx.font = `600 ${t.fontSize}px 'Poppins', sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        ctx.shadowColor = 'rgba(255, 105, 180, 0.95)';
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = '#ffcce6';
+
+        ctx.fillText(t.text, 0, 0);
+        ctx.restore();
+      });
+
+      // 6. Partículas interactivas del cursor (Corazones y destellos)
+      for (let i = interactiveParticles.length - 1; i >= 0; i--) {
+        const p = interactiveParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= 0.02;
+
+        if (p.alpha <= 0) {
+          interactiveParticles.splice(i, 1);
+          continue;
         }
 
-        // Selección dinámica de TODAS las hojas (.page)
-        const pages = Array.from(document.querySelectorAll('.page'));
-        let currentPage = 0;
-
-        function updateBook() {
-            pages.forEach((page, index) => {
-                if (index < currentPage) {
-                    page.classList.add('flipped');
-                    page.style.zIndex = index + 1;
-                } else {
-                    page.classList.remove('flipped');
-                    page.style.zIndex = pages.length - index;
-                }
-            });
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        if (p.isHeart) {
+          ctx.font = `${p.size}px sans-serif`;
+          ctx.fillText("💖", p.x, p.y);
+        } else {
+          ctx.fillStyle = '#ffe680';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size / 4, 0, Math.PI * 2);
+          ctx.fill();
         }
+        ctx.restore();
+      }
 
-        // Inicializar z-index
-        updateBook();
+      requestAnimationFrame(animate);
+    }
 
-        document.getElementById('next-btn').addEventListener('click', () => {
-            if (currentPage < pages.length) {
-                currentPage++;
-                updateBook();
-            }
-        });
-
-        document.getElementById('prev-btn').addEventListener('click', () => {
-            if (currentPage > 0) {
-                currentPage--;
-                updateBook();
-            }
-        });
-
-        // Clic directo en las hojas para pasar
-        pages.forEach((page, index) => {
-            page.addEventListener('click', () => {
-                if (index === currentPage) {
-                    currentPage++;
-                } else if (index === currentPage - 1) {
-                    currentPage--;
-                }
-                updateBook();
-            });
-        });
-    </script>
+    animate();
+  </script>
 </body>
 </html>
