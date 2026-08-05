@@ -3,11 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galaxia de Amor para Alina ❤️</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  
+  <title>Corazón 3D Rojo - Bayron & Alina</title>
   <style>
     * {
       margin: 0;
@@ -15,236 +11,326 @@
       box-sizing: border-box;
     }
 
-    body, html {
-      width: 100%;
-      height: 100%;
+    body {
+      background-color: #050003;
       overflow: hidden;
-      background-color: #030108;
-      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
     }
 
-    canvas {
-      display: block;
+    #webgl-container {
       width: 100vw;
       height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    /* Overlay para nombres y frase */
+    .names-overlay {
+      position: absolute;
+      top: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      text-align: center;
+      color: #ffffff;
+      z-index: 10;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .main-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: #fff;
+      text-shadow: 
+        0 0 10px #ff0055,
+        0 0 20px #ff0055,
+        0 0 40px #ff0000,
+        0 0 80px #b30000;
+      animation: pulseText 2s ease-in-out infinite alternate;
+    }
+
+    .sub-phrase {
+      font-size: 1.15rem;
+      font-weight: 400;
+      font-style: italic;
+      margin-top: 8px;
+      color: #ffb3c1;
+      text-shadow: 0 0 8px rgba(255, 0, 85, 0.7);
+      letter-spacing: 1px;
+    }
+
+    @keyframes pulseText {
+      0% {
+        transform: scale(0.96);
+        opacity: 0.88;
+      }
+      100% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .main-title { font-size: 1.8rem; }
+      .sub-phrase { font-size: 0.95rem; }
     }
   </style>
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-  <canvas id="galaxyCanvas"></canvas>
+  <div class="names-overlay">
+    <div class="main-title">Bayron & Alina</div>
+    <div class="sub-phrase">"Escribiendo nuestro amor infinito a pasitos de tortuga 🐢❤️🐬"</div>
+  </div>
+
+  <div id="webgl-container"></div>
 
   <script>
-    const canvas = document.getElementById('galaxyCanvas');
+    // 1. Escena, Cámara y Renderizador
+    const container = document.getElementById('webgl-container');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x050003, 0.012);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1, 34);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Grupo principal para el corazón y el número 10
+    const heartGroup = new THREE.Group();
+    scene.add(heartGroup);
+
+    // Textura de brillo para las partículas
+    const canvas = document.createElement('canvas');
+    canvas.width = 32;
+    canvas.height = 32;
     const ctx = canvas.getContext('2d');
+    const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.3, 'rgba(255,100,150,0.8)');
+    grad.addColorStop(1, 'rgba(255,0,0,0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(16, 16, 16, 0, Math.PI * 2);
+    ctx.fill();
+    const texture = new THREE.CanvasTexture(canvas);
 
-    let width, height, centerX, centerY;
+    // 2. Corazón 3D Rojo Neón
+    const particleCount = 8000;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
 
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      centerX = width / 2;
-      centerY = height / 2;
-    }
-    window.addEventListener('resize', resize);
-    resize();
+    const colorRed = new THREE.Color(0xff0033);  // Rojo brillante
+    const colorGold = new THREE.Color(0xff4d6d); // Carmesí rosado
+    const colorDeep = new THREE.Color(0x990000); // Rojo oscuro fondo
 
-    // Nombre principal
-    const targetName = "Alina ✨";
+    for (let i = 0; i < particleCount; i++) {
+      const t = Math.random() * Math.PI * 2;
+      const u = (Math.random() - 0.5) * Math.PI;
 
-    // Frases dedicadas para Alina
-    const phrases = [
-      "Alina, mi reina 👑", "Mi vida Alina ❤️", "Mi mundo eres tú ✨", "Sin ti no soy nada 💖",
-      "Eres mi todo 🌸", "Solo tú, Alina 💎", "Gracias por existir 💕", "Eres mi luz 💖",
-      "Mi cielo 🌌", "Mi corazón 💓", "Siempre tú, Alina 💞", "Eres especial 🌹",
-      "Contigo es todo 🌷", "Eres mi paz 🕊️", "Mi sueño hecho realidad 💫", "Te amo Alina ❤️",
-      "Por siempre juntos ♾️", "Eres perfecta 💖", "Alina, mi razón 💗", "Completamente enamorado 🌹",
-      "Mi ángel 🪽", "Mi hogar 🏠", "Mi felicidad 🌸", "Cada día te amo más 💞",
-      "El sol de mis días ☀️", "Mi universo entero 🪐", "Eternamente tuya/o 💌"
-    ];
+      const r = Math.pow(Math.random(), 0.35); // Densidad
+      const x = 16 * Math.pow(Math.sin(t), 3) * Math.cos(u) * r * 0.55;
+      const y = (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * Math.cos(u) * r * 0.55;
+      const z = Math.sin(u) * 4.5 * r;
 
-    // Configuración de estrellas y nebulosas
-    const numParticles = 2000;
-    const particles = [];
-    const textItems = [];
-    const interactiveParticles = [];
+      positions[i * 3] = x;
+      positions[i * 3 + 1] = y + 2.5;
+      positions[i * 3 + 2] = z;
 
-    // Crear partículas para la galaxia espiral
-    for (let i = 0; i < numParticles; i++) {
-      const radius = Math.pow(Math.random(), 2) * (Math.min(width, height) * 0.48) + 25;
-      const angle = Math.random() * Math.PI * 2 + (radius * 0.012);
-      const speed = (0.0015 + (1 / radius) * 0.12);
-      const size = Math.random() * 2.2 + 0.2;
-      const opacity = Math.random() * 0.85 + 0.15;
-      // Colores variados entre blanco, magenta, azul cosmos y dorado
-      const colors = ['#fff', '#ffb3d9', '#ff66b2', '#cce6ff', '#ffd700'];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-
-      particles.push({ radius, angle, speed, size, opacity, color });
+      // Gradiente de tonos rojos
+      const mixedColor = colorRed.clone().lerp(Math.random() > 0.5 ? colorGold : colorDeep, Math.random());
+      colors[i * 3] = mixedColor.r;
+      colors[i * 3 + 1] = mixedColor.g;
+      colors[i * 3 + 2] = mixedColor.b;
     }
 
-    // Distribución de frases flotantes
-    phrases.forEach((phrase, idx) => {
-      const radius = 70 + (idx / phrases.length) * (Math.min(width, height) * 0.43);
-      const angle = (idx * (Math.PI * 2 / 7)) + (radius * 0.007);
-      const speed = 0.0012 + (1 / radius) * 0.08;
-      const fontSize = Math.max(12, Math.min(19, 10 + (radius * 0.014)));
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-      textItems.push({
-        text: phrase,
-        radius: radius,
-        angle: angle,
-        speed: speed,
-        fontSize: fontSize
-      });
+    const material = new THREE.PointsMaterial({
+      size: 0.38,
+      vertexColors: true,
+      map: texture,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
     });
 
-    // Interacción con ratón / táctil
-    function addInteractiveParticle(x, y) {
-      for (let i = 0; i < 3; i++) {
-        interactiveParticles.push({
-          x: x + (Math.random() - 0.5) * 20,
-          y: y + (Math.random() - 0.5) * 20,
-          vx: (Math.random() - 0.5) * 2,
-          vy: (Math.random() - 0.5) * 2 - 1,
-          size: Math.random() * 14 + 10,
-          alpha: 1,
-          isHeart: Math.random() > 0.4
-        });
-      }
-    }
+    const heartParticles = new THREE.Points(geometry, material);
+    heartGroup.add(heartParticles);
 
-    window.addEventListener('mousemove', (e) => addInteractiveParticle(e.clientX, e.clientY));
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        addInteractiveParticle(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    });
+    // 3. Crear el número "10" 3D brillante en el centro del corazón
+    function createNumber10Particles() {
+      const numPoints = 1200;
+      const numPositions = [];
+      const numColors = [];
+      const goldColor = new THREE.Color(0xffd700);
+      const brightWhite = new THREE.Color(0xffffff);
 
-    let pulseTimer = 0;
+      // Trazo manual para el "1" y el "0"
+      for (let i = 0; i < numPoints; i++) {
+        let px = 0, py = 0, pz = (Math.random() - 0.5) * 1.5;
+        const choice = Math.random();
 
-    // Bucle de animación
-    function animate() {
-      pulseTimer += 0.03;
-      const pulseScale = 1 + Math.sin(pulseTimer) * 0.08;
-
-      // Fondo oscuro con rastro estelar
-      ctx.fillStyle = 'rgba(3, 1, 8, 0.18)';
-      ctx.fillRect(0, 0, width, height);
-
-      const maxRadius = Math.min(width, height) * 0.48;
-
-      // 1. Resplandor de Nebulosa en el fondo
-      const bgGlow = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, maxRadius);
-      bgGlow.addColorStop(0, 'rgba(255, 50, 150, 0.35)');
-      bgGlow.addColorStop(0.4, 'rgba(140, 20, 120, 0.15)');
-      bgGlow.addColorStop(0.8, 'rgba(30, 10, 50, 0.08)');
-      bgGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = bgGlow;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, maxRadius, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 2. Dibujar Estrellas de la Galaxia
-      particles.forEach(p => {
-        p.angle += p.speed;
-
-        const x = centerX + Math.cos(p.angle) * p.radius;
-        const y = centerY + Math.sin(p.angle) * (p.radius * 0.62);
-
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.opacity;
-        ctx.beginPath();
-        ctx.arc(x, y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      ctx.globalAlpha = 1.0;
-
-      // 3. Anillo de Luz Central Palpitante
-      const holeRadius = 42 * pulseScale;
-      const ringGlow = ctx.createRadialGradient(centerX, centerY, holeRadius * 0.4, centerX, centerY, holeRadius + 30);
-      ringGlow.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      ringGlow.addColorStop(0.3, 'rgba(255, 105, 180, 0.9)');
-      ringGlow.addColorStop(0.7, 'rgba(180, 0, 100, 0.4)');
-      ringGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-      ctx.fillStyle = ringGlow;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, holeRadius + 30, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Núcleo del Sol/Estrella Central
-      ctx.fillStyle = '#0a0008';
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, holeRadius, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 4. Nombre "ALINA" en el centro de la Galaxia
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.font = `700 ${Math.max(22, holeRadius * 0.75)}px 'Great Vibes', cursive, 'Poppins'`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-
-      // Sombra Neón Dorada / Rosada para Alina
-      ctx.shadowColor = '#ff66cc';
-      ctx.shadowBlur = 15;
-      ctx.fillStyle = '#ffe6f2';
-      ctx.fillText(targetName, 0, 2);
-      ctx.restore();
-
-      // 5. Dibujar Frases y Emojis Flotantes
-      textItems.forEach(t => {
-        t.angle += t.speed;
-
-        const x = centerX + Math.cos(t.angle) * t.radius;
-        const y = centerY + Math.sin(t.angle) * (t.radius * 0.62);
-
-        ctx.save();
-        ctx.translate(x, y);
-
-        ctx.font = `600 ${t.fontSize}px 'Poppins', sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-
-        ctx.shadowColor = 'rgba(255, 105, 180, 0.95)';
-        ctx.shadowBlur = 12;
-        ctx.fillStyle = '#ffcce6';
-
-        ctx.fillText(t.text, 0, 0);
-        ctx.restore();
-      });
-
-      // 6. Partículas interactivas del cursor (Corazones y destellos)
-      for (let i = interactiveParticles.length - 1; i >= 0; i--) {
-        const p = interactiveParticles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.alpha -= 0.02;
-
-        if (p.alpha <= 0) {
-          interactiveParticles.splice(i, 1);
-          continue;
-        }
-
-        ctx.save();
-        ctx.globalAlpha = p.alpha;
-        if (p.isHeart) {
-          ctx.font = `${p.size}px sans-serif`;
-          ctx.fillText("💖", p.x, p.y);
+        if (choice < 0.3) {
+          // El número '1'
+          px = -3.2 + (Math.random() - 0.5) * 0.4;
+          py = (Math.random() - 0.5) * 4.5;
         } else {
-          ctx.fillStyle = '#ffe680';
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size / 4, 0, Math.PI * 2);
-          ctx.fill();
+          // El número '0'
+          const angle = Math.random() * Math.PI * 2;
+          px = 2.2 + Math.cos(angle) * 1.6;
+          py = Math.sin(angle) * 2.3;
         }
-        ctx.restore();
+
+        numPositions.push(px, py + 1.2, pz);
+
+        const col = goldColor.clone().lerp(brightWhite, Math.random() * 0.6);
+        numColors.push(col.r, col.g, col.b);
       }
 
+      const numGeo = new THREE.BufferGeometry();
+      numGeo.setAttribute('position', new THREE.Float32BufferAttribute(numPositions, 3));
+      numGeo.setAttribute('color', new THREE.Float32BufferAttribute(numColors, 3));
+
+      const numMat = new THREE.PointsMaterial({
+        size: 0.32,
+        vertexColors: true,
+        map: texture,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      return new THREE.Points(numGeo, numMat);
+    }
+
+    const number10 = createNumber10Particles();
+    heartGroup.add(number10);
+
+    // 4. Anillo de energía / Pedestal en la base
+    const ringCount = 2000;
+    const ringGeometry = new THREE.BufferGeometry();
+    const ringPositions = new Float32Array(ringCount * 3);
+    const ringColors = new Float32Array(ringCount * 3);
+
+    for (let i = 0; i < ringCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 6.5 + Math.random() * 3.0;
+
+      ringPositions[i * 3] = Math.cos(angle) * radius;
+      ringPositions[i * 3 + 1] = -7.5 + (Math.random() - 0.5) * 0.5;
+      ringPositions[i * 3 + 2] = Math.sin(angle) * radius;
+
+      ringColors[i * 3] = 1.0; 
+      ringColors[i * 3 + 1] = 0.1 + Math.random() * 0.3; 
+      ringColors[i * 3 + 2] = 0.3;
+    }
+
+    ringGeometry.setAttribute('position', new THREE.BufferAttribute(ringPositions, 3));
+    ringGeometry.setAttribute('color', new THREE.BufferAttribute(ringColors, 3));
+
+    const ringMaterial = new THREE.PointsMaterial({
+      size: 0.3,
+      vertexColors: true,
+      map: texture,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const energyRing = new THREE.Points(ringGeometry, ringMaterial);
+    scene.add(energyRing);
+
+    // 5. Partículas ascendentes (chispas flotantes)
+    const sparksCount = 400;
+    const sparksGeo = new THREE.BufferGeometry();
+    const sparksPos = new Float32Array(sparksCount * 3);
+
+    for (let i = 0; i < sparksCount; i++) {
+      sparksPos[i * 3] = (Math.random() - 0.5) * 25;
+      sparksPos[i * 3 + 1] = (Math.random() - 0.5) * 25;
+      sparksPos[i * 3 + 2] = (Math.random() - 0.5) * 25;
+    }
+
+    sparksGeo.setAttribute('position', new THREE.BufferAttribute(sparksPos, 3));
+    const sparksMat = new THREE.PointsMaterial({
+      size: 0.22,
+      color: 0xff7799,
+      map: texture,
+      transparent: true,
+      blending: THREE.AdditiveBlending
+    });
+
+    const sparks = new THREE.Points(sparksGeo, sparksMat);
+    scene.add(sparks);
+
+    // Interacción con cursor / touch
+    let mouseX = 0, mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+    });
+
+    // 6. Bucle de Animación
+    const clock = new THREE.Clock();
+
+    function animate() {
       requestAnimationFrame(animate);
+
+      const elapsedTime = clock.getElapsedTime();
+
+      // Rotación 3D del corazón
+      heartGroup.rotation.y = elapsedTime * 0.6;
+      
+      // Rotación e inclinación suave con el mouse
+      heartGroup.rotation.x = mouseY * 0.5;
+      heartGroup.rotation.z = mouseX * 0.3;
+
+      // Latido constante del corazón
+      const pulse = 1 + Math.sin(elapsedTime * 3.5) * 0.04;
+      heartGroup.scale.set(pulse, pulse, pulse);
+      heartGroup.position.y = Math.sin(elapsedTime * 2) * 0.5;
+
+      // Animación de la base de energía
+      energyRing.rotation.y = -elapsedTime * 0.7;
+
+      // Animación de las chispas ascendentes
+      const positions = sparksGeo.attributes.position.array;
+      for (let i = 0; i < sparksCount; i++) {
+        positions[i * 3 + 1] += 0.04;
+        if (positions[i * 3 + 1] > 15) {
+          positions[i * 3 + 1] = -12;
+        }
+      }
+      sparksGeo.attributes.position.needsUpdate = true;
+
+      renderer.render(scene, camera);
     }
 
     animate();
+
+    // Responsive
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
   </script>
 </body>
 </html>
